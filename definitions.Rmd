@@ -1,0 +1,42 @@
+---
+title: "Definitions"
+output:
+  html_document:
+    toc: yes
+    df_print: paged
+    number_sections: no
+    toc_float: yes
+    code_folding: hide
+
+knit: ( 
+  function(input_file, encoding) {
+    out_dir <- 'docs';
+    
+    rmarkdown::render(
+    input       = input_file,
+    encoding    = encoding,
+    output_file = file.path(dirname(input_file), out_dir, 'definitions.html') ) })
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = T,
+                      eval = T,
+                      include = T,
+                      message = FALSE,
+                      warning = FALSE,
+                      results = "hide")
+
+```
+
+
+List of definitions used in the article:
+
+**ART**: Average treatment effect of reversal among the reversed
+
+**ATT**: Average Treatment effect on the Treated.
+
+**L:** Lags, or the length of history over which treatment
+
+**Parallel trends**: The assumption that in the absence of treatment, the difference between the treatment and control group is constant over time.
+
+**Staggered adoption:** The assumption that treatment status never reverses. **Staggered intervention:** Units receive the treatment at different points in time.

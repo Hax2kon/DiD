@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Solutions</title>
+
+<script src="solutions_files/header-attrs-2.17/header-attrs.js"></script>
+<script src="solutions_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="solutions_files/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="solutions_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="solutions_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="solutions_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="solutions_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="solutions_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="solutions_files/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="solutions_files/navigation-1.1/tabsets.js"></script>
+<script src="solutions_files/navigation-1.1/codefolding.js"></script>
+<link href="solutions_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="solutions_files/highlightjs-9.12.0/highlight.js"></script>
+<link href="solutions_files/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="solutions_files/pagedtable-1.1/js/pagedtable.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">DiD Notes</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="intro.html">Introduction</a>
+</li>
+<li>
+  <a href="problems.html">Problems</a>
+</li>
+<li>
+  <a href="solutions.html">Solutions</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Solutions</h1>
+
+</div>
+
+
+<div id="contributions-that-offer-solutions" class="section level1"
+number="1">
+<h1><span class="header-section-number">1</span> Contributions that
+offer solutions</h1>
+<div id="ImaiKimWang" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Imai, Kim and Wang
+2022</h2>
+<p><a href="https://doi.org/10.1111/ajps.12685">“Matching methods for
+Causal Inference with Time-Series Cross-Sectional Data” by Imai, K.,
+Kim, I.S. and Wang, E.H. (2022)</a></p>
+<p>R-package: <a
+href="https://github.com/insongkim/PanelMatch">PanelMatch()</a>.</p>
+<p><span class="math inline">\(~\)</span></p>
+<div id="the-problem-it-solves" class="section level3" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> The problem it
+solves</h3>
+<p>Most matching methods are not fit for Time-Series Cross-Sectional
+(TSCS) data. The few solutions that exist assume <a
+href="definitions.html"><strong>staggered adoption</strong></a>. They
+create a matched DiD-application for TSCS-data without this
+assumption.</p>
+<p>They address staggered adoption both in the sense that units are
+treated at unequal T, but also that there is a Average Causal effect of
+Reversal (ART), so that units jump back and forth in being treated.</p>
+<p><span class="math inline">\(~\)</span></p>
+</div>
+<div id="the-way-it-solves-it" class="section level3" number="1.1.2">
+<h3><span class="header-section-number">1.1.2</span> The way it solves
+it</h3>
+<p>Their proposed solution is best understood as a three-stage process.
+In stage 1 we construct, for each treated unit, a matched set of control
+units that share identical treatment status over an adjustable time
+period <a href="#definitions"><strong>L</strong></a>. In stage 2 we
+refine these matched sets of units by balancing over observed,
+time-varying confounders. In stage 3 we execute the DiD-estimator.</p>
+<pre class="r"><code>library(tidyverse);library(PanelMatch);library(did)
+data(dem) # Example data from &quot;Democracy Does Cause Growth&quot; by Acemoglu, Naidu, Restrepo, and Robinson (2019)</code></pre>
+<p><span class="math inline">\(~\)</span></p>
+<div id="stage-1-constructing-matched-sets" class="section level4"
+number="1.1.2.1">
+<h4><span class="header-section-number">1.1.2.1</span> Stage 1:
+Constructing matched sets</h4>
+<p>In the first stage, units that experience the treatment are matched
+with units that do not experience the treatment (control). This is
+practically an exact-match procedure, but relying only on the units’
+treatment status over a user-specified length of time. This length of
+time is called <a href="definitions.html"><strong>L</strong></a> (short
+for Lags). If L = 0, units are matched solely on treatment status at
+time T, but this this would no longer be utilizing the time-dimension in
+the dataset.</p>
+<p>In figure @ref(fig:ExampleStage1) they illustrate an example with 5
+units over 6 time periods, with L = 3. Values in the triangles and
+circles indicate whether this is a treated unit or a control unit, while
+the square box is the pre-treatment period, the length of which is
+defined by <a href="definitions.html"><strong>L</strong></a>. In
+creating matched sets, units with similar pre-treatment periods
+<em>across the exact same time periods T</em> but with unequal treatment
+status in the triangles/circles are matched together to compose a set.
+In the left-hand panel (a), we are looking for units we can use to find
+the <a href="#definitions"><strong>ATT</strong></a>. The three red units
+and the three blue units compose separate matched sets with one treated
+unit and two control units. The grey units compose a third matched set
+with one treated unit and one control unit.</p>
+<p>The right-hand panel (b) is similar, but now we are looking for sets
+with which we can analyse the <a
+href="definitions.html"><strong>ART</strong></a>. The blue circle in
+this panel simply illustrates a case of reversal but which do not have
+any suitable match in the data.</p>
+<p>Any data point that does not enter into a matched set is
+discarded.</p>
+<p><span class="math inline">\(~\)</span></p>
+<div class="figure">
+<img src="E:/PRIO%20Dropbox/Haakon%20Gjerl%C3%B8w/PRIO/MethodsRG/DiD/Graphics/ajps12685-fig-0002-m.jpg" alt="" />
+<p class="caption">(#fig:ExampleStage1) An Example of Matched Sets with
+Five Units and Six Time Periods and with L = 3</p>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+<p>The following R-code gives an overview of the
+<code>PanelMatch()</code>-arguments that refer to stage 1:</p>
+<pre class="r"><code>mod &lt;- PanelMatch(
+  
+  #General information for the PanelMatch-function:
+  data = dem, #Data to be used
+  time.id = &quot;year&quot;, #Name of time-column 
+  unit.id = &quot;wbcode2&quot;, #Name of unit-column
+  treatment = &quot;dem&quot;, #Name of treatment variable
+  outcome.var = &quot;y&quot;, #Name of outcome variable (they have named the column Y...lol...)
+  qoi = &quot;att&quot;, #Quantity of interest.
+  verbose = TRUE, #Prints more information about all calculations
+  
+  #    Arguments for Stage 1:
+  matching = TRUE, #Should Stage 1 exact match on treatment history?
+  lag = 4, # This argument controls the number of lags, notated as &quot;L&quot; int he article
+  match.missing = FALSE, # Should patterns of missingness be included in matching the units into sets?
+  listwise.delete = TRUE, #Delete missingness listwise
+  exact.match.variables = NULL, #In principle, the exact matching in stage 1 can include all categorical variables, not just the treatment history. Character vector of relevant categorical variables can be added here. NULL means that we will only match on treatment history.
+  
+  ...
+  
+)</code></pre>
+<p><span class="math inline">\(~\)</span></p>
+</div>
+<div id="stage-2-refine-match-sets" class="section level4"
+number="1.1.2.2">
+<h4><span class="header-section-number">1.1.2.2</span> Stage 2: Refine
+match sets</h4>
+<p>In stage 2 the goal is to establish balance on time-varying
+covariates within these matched sets over the pre-treatment period (<a
+href="definitions.html"><strong>L</strong></a>). This is to address the
+<a href="definitions.html"><strong>parallel trends
+assumption</strong></a>. This can be done with many existing approaches,
+and the article suggests either using a matching procedure such as
+Mahalanobis distance or Propensity matching, or create unit weights.</p>
+<p>In the evaluations in the article, weighting performs better, and at
+times a lot better, than distance matching.</p>
+<div id="distance-balancing" class="section level5" number="1.1.2.2.1">
+<h5><span class="header-section-number">1.1.2.2.1</span>
+Distance-balancing</h5>
+<p><em>Using Mahalanobis-distance:</em> Computes standardized
+Mahalanobis-distance between the treated unit and each of its matched
+control units, averaged over the pre-treatment period.</p>
+<p><em>Propensity score matching:</em> Estimates the conditional
+probability that a unit will experience the treatment given
+pre-treatmeant covariates (the propensity score). This approach requires
+additional specification for how to estimate the probability of being
+treated, such as a logistic regression.</p>
+<p>Once a distance measure has been selected and computed, the sample is
+reduced to the <strong>J</strong> most similar units within each matched
+set.</p>
+</div>
+<div id="weight-balancing" class="section level5" number="1.1.2.2.2">
+<h5><span class="header-section-number">1.1.2.2.2</span>
+Weight-balancing</h5>
+<p>Each control unit within each matched set is assigned a weight, with
+greater weight assigned to more similar units. This approach requires
+the user to select some method to determine similarity. The authors
+suggest <a
+href="https://onlinelibrary.wiley.com/doi/10.1111/1468-0262.00442">propensity
+score weighting</a> or calibration weights.</p>
+<p><span class="math inline">\(~\)</span></p>
+<p>The following R-code gives an overview of the
+<code>PanelMatch()</code>-arguments that refer to stage 2:</p>
+<pre class="r"><code>mod &lt;- PanelMatch(
+  
+  #General information for the PanelMatch-function:
+  data = dem, #Data to be used
+  time.id = &quot;year&quot;, #Name of time-column 
+  unit.id = &quot;wbcode2&quot;, #Name of unit-column
+  treatment = &quot;dem&quot;, #Name of treatment variable
+  outcome.var = &quot;y&quot;, #Name of outcome variable (they have named the column Y...lol...)
+  qoi = &quot;att&quot;, #Quantity of interest.
+  verbose = TRUE, #Prints more information about all calculations
+  
+  #    Arguments for Stage 1:
+  ...
+  
+  #    Arguments referring to Stage 2:
+  lead = 0:4, #How far (years) into the future should the outcome be measured? Notated as F in the article
+  forbid.treatment.reversal = FALSE, #Should reversal be allowed in the period between the treatment occurs (T) and the outcome is measured (T + leads/F)
+  refinement.method = &quot;CBPS.weight&quot;, #Covariate balancing propensity score weights from Imai and Ratkovic (2014)
+  size.match = 5, #Indicates the J closest matches to keep in the refinement. This is only relevant for the distance-methods, not weight-methods.
+  covs.formula = as.formula(~ I(lag(tradewb, 1:4)) + I(lag(y, 1:4)) #Formula for refinement
+                            
+  )</code></pre>
+<p><span class="math inline">\(~\)</span></p>
+</div>
+</div>
+<div id="stage-3-the-did-estimator" class="section level4"
+number="1.1.2.3">
+<h4><span class="header-section-number">1.1.2.3</span> Stage 3: The
+DiD-estimator</h4>
+<p>Before executing the DiD-estimator, the user needs to specify how
+long into the future the effect should occur, called <a
+href="#definitions"><strong>F</strong></a>. If F = 2 and treatment
+occurs in T = 0, then the outcome Y from T+2 is used. This is similar to
+lagging the treatment variable in a normal regression setup, but with a
+lead-logic instead. Once F is specified, we can proceed with the
+DiD-estimator.</p>
+<p>The DiD-estimator sequence: 1. Calculates the counterfactual outcome
+for each treated unit using the weighted average of the refined matched
+control units. 2. Computes DiD estimate of the ATT for each treated
+unit. 3. Averages the ATT estimates across all treated units.</p>
+<p><span class="math inline">\(~\)</span></p>
+<p>The following R-code first runs stage 1 and 2 with the
+<code>PanelMatch()</code>-function, then executes stage 3 using the
+<code>PanelEstimate</code>-function. It also produces a simply
+visualization of the result:</p>
+<p><span class="math inline">\(~\)</span></p>
+<pre class="r"><code>      mod &lt;- PanelMatch(
+        
+        #General information for the PanelMatch-function:
+        data = dem, #Data to be used
+        time.id = &quot;year&quot;, #Name of time-column 
+        unit.id = &quot;wbcode2&quot;, #Name of unit-column
+        treatment = &quot;dem&quot;, #Name of treatment variable
+        outcome.var = &quot;y&quot;, #Name of outcome variable (they have named the column Y...lol...)
+        qoi = &quot;att&quot;, #Quantity of interest.
+        verbose = TRUE, #Prints more information about all calculations
+        
+        #    Arguments for Stage 1:
+        matching = TRUE, #Should Stage 1 exact match on treatment history?
+        lag = 4, # This argument controls the number of lags, notated as &quot;L&quot; int he article
+        match.missing = FALSE, # Should patterns of missingness be included in matching the units into sets?
+        listwise.delete = TRUE, #Delete missingness listwise
+        exact.match.variables = NULL, #In principle, the exact matching in stage 1 can include all categorical variables, not just the treatment history. Character vector of relevant categorical variables can be added here. NULL means that we will only match on treatment history.
+        
+        #    Arguments referring to Stage 2:
+        lead = 0:4, #How far (years) into the future should the outcome be measured? Notated as F in the article
+        forbid.treatment.reversal = FALSE, #Should reversal be allowed in the period between the treatment occurs (T) and the outcome is measured (T + leads/F)
+        refinement.method = &quot;CBPS.weight&quot;, #Covariate balancing propensity score weights from Imai and Ratkovic (2014)
+        size.match = 5, #Indicates the J closest matches to keep in the refinement. This is only relevant for the distance-methods, not weight-methods.
+        covs.formula = as.formula(~ I(lag(tradewb, 1:4)) + I(lag(y, 1:4)) ) #Formula for refinement
+        
+      )
+      
+      #Stage 3
+      res &lt;- PanelEstimate(sets = mod, data = dem)
+      
+      #Simple visualization of the result
+      plot(res)</code></pre>
+<p><img src="solutions_files/figure-html/FullFunction-1.png" width="672" />
+<span class="math inline">\(~\)</span></p>
+</div>
+</div>
+<div id="unsolved-problems" class="section level3" number="1.1.3">
+<h3><span class="header-section-number">1.1.3</span> Unsolved
+problems</h3>
+<ul>
+<li>Requires binary treatment</li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+</div>
+<div id="list-of-assumptions" class="section level3" number="1.1.4">
+<h3><span class="header-section-number">1.1.4</span> List of
+assumptions</h3>
+<ul>
+<li><p>Parallel trends</p></li>
+<li><p>Assumed causal order: Confounders Z are realized before treatment
+X is realized before outcome Y</p></li>
+<li><p>Assumes absence of between-unit spillover effects (they are
+looking into applications without this assumption)</p></li>
+</ul>
+</div>
+</div>
+<div id="callaway-and-santanna-2021" class="section level2"
+number="1.2">
+<h2><span class="header-section-number">1.2</span> Callaway and
+Sant’Anna 2021</h2>
+<p><a
+href="https://www.sciencedirect.com/science/article/abs/pii/S0304407620303948">“Difference-in-Differences
+with Multiple Time Periods” by Callaway, Brantly and Sant’Anna, Pedro H.
+C. (2021)</a></p>
+<p>R-package: <a
+href="https://cran.r-project.org/web/packages/did/vignettes/did-basics.html">did</a></p>
+<div id="the-problem-it-solves-1" class="section level3" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> The problem it
+solves</h3>
+<p>Heterogeneous treatment effects: What is compared to what?</p>
+<p>They argue that there is no problem with staggered adoption if effect
+is homogeneous. Problem is homogeneous effects</p>
+</div>
+<div id="the-way-it-solves-it-1" class="section level3" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> The way it solves
+it</h3>
+<p>Estimate the effect at various time periods. Then the first treatment
+effects is updated by later treatment effects.</p>
+<p>This code implements the method:</p>
+<pre class="r"><code>    source(&quot;Data/generate_panel_data.R&quot;) #Generate random data
+
+    out &lt;- att_gt(yname = &quot;y&quot;,
+    gname = &quot;first_treat&quot;,
+    idname = &quot;id&quot;,
+    tname = &quot;time&quot;,
+    xformla = ~1,
+    data = dat,
+    est_method = &quot;reg&quot;,
+    control_group = &quot;notyettreated&quot; #Will include units that will receive treatment later as control group
+    )
+    
+    #Plot
+    ggdid(out, ylim = c(-.25,.1))</code></pre>
+<p><img src="solutions_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<pre class="r"><code>    #Event-type plot
+    es &lt;- aggte(out, type = &quot;dynamic&quot;)
+    ggdid(es)</code></pre>
+<p><img src="solutions_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
+<p>Event-type plot:</p>
+<pre class="r"><code>    #Event-type plot
+    es &lt;- aggte(out, type = &quot;dynamic&quot;)
+    ggdid(es)</code></pre>
+<p><img src="solutions_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="things-we-didnt-understand" class="section level3"
+number="1.2.3">
+<h3><span class="header-section-number">1.2.3</span> Things we didn’t
+understand</h3>
+<p>Many, us included, struggle to understand what the solution actually
+does. In many ways, many papers just do what Wooldridge suggests: Allow
+more flexibility.</p>
+<!-- ## Gardner 2021 -->
+<!-- ["Two-stage differences in differences" by Gardner, John (2022)](https://jrgcmu.github.io/2sdd2.pdf) -->
+<!-- R-package: [did2s](https://asjadnaqvi.github.io/DiD/docs/code_r/07_did2s_r/) -->
+<!-- ## Sun and Abrahams 2021 -->
+<!--     ["Estimating Dynamic Treatment Effects in Event Studies with Heterogeneous Treatment Effects" by Sun, Liyang and  Abraham, Sarah (2021)](https://www.sciencedirect.com/science/article/abs/pii/S030440762030378X) -->
+<!-- R-package: [sunab()-function](https://lrberge.github.io/fixest/reference/sunab.html) in [fixest](https://lrberge.github.io/fixest/index.html) -->
+</div>
+</div>
+<div id="wooldridge" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Wooldridge 2021</h2>
+<p><a
+href="https://www.researchgate.net/publication/353938385_Two-Way_Fixed_Effects_the_Two-Way_Mundlak_Regression_and_Difference-in-Differences_Estimators">“Two-Way
+Fixed Effects, the Two-Way Mundlak Regression, and
+Difference-in-Differences Estimators” by Wooldridge, Jeffrey M.
+(2021)</a></p>
+<p>Wooldridge’s <a href="https://t.co/q1AnkhEF97">Dropbox folder</a>
+(Contains Stata-code)</p>
+<p><a
+href="https://twitter.com/jmwooldridge/status/1427472491367305219?s=20&amp;t=t0PDmFzAL9-lokGyUo0r7A">The
+Tweet</a></p>
+<div id="the-problem-it-solves-2" class="section level3" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> The problem it
+solves</h3>
+<p>Lots of fancy new stuff, but you can also just use regression.</p>
+</div>
+<div id="the-way-it-solves-it-2" class="section level3" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> The way it solves
+it</h3>
+<p>Instead of having dummies for each group, you can just control for
+the average. And then adding interaction terms to these solves all of
+the various problems.</p>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

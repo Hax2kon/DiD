@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Problems</title>
+
+<script src="problems_files/header-attrs-2.17/header-attrs.js"></script>
+<script src="problems_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="problems_files/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="problems_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="problems_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="problems_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="problems_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="problems_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="problems_files/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="problems_files/navigation-1.1/tabsets.js"></script>
+<script src="problems_files/navigation-1.1/codefolding.js"></script>
+<link href="problems_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="problems_files/highlightjs-9.12.0/highlight.js"></script>
+<link href="problems_files/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="problems_files/pagedtable-1.1/js/pagedtable.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">DiD Notes</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="intro.html">Introduction</a>
+</li>
+<li>
+  <a href="problems.html">Problems</a>
+</li>
+<li>
+  <a href="solutions.html">Solutions</a>
+</li>
+<li>
+  <a href="definitions.html">Definitions</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Problems</h1>
+
+</div>
+
+
+<div id="contributions-that-identify-problems" class="section level1"
+number="1">
+<h1><span class="header-section-number">1</span> Contributions that
+identify problems</h1>
+<div id="GoodmanBacon" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Goodman-Bacon
+2018</h2>
+<p>The paper proves that the DiD estimator in this situation is a
+weighted average of all possible two-group DD estimators in the data.
+This is called the Goodman-Bacon decomposition model.</p>
+<p>Imagine 3 units: 1. Early treated 2. Late treated 3. Never
+treated</p>
+<p><em>The Goodman-Bacon decomposition model</em>: Decomposes two-way
+fixed effect model into two-group comparisons – including comparing
+treated with previously treated as control group, e.g.: Early treated -
+Never treated Late treated - Never treated Early treated - Late treated,
+before the treatment of the Early treated occurs Late treated - Early
+treated, after the treatment of the Early treated occurs</p>
+<div class="figure">
+<img src="E:/PRIO%20Dropbox/Haakon%20Gjerl%C3%B8w/PRIO/MethodsRG/DiD/Graphics/Decomposition.png" alt="" />
+<p class="caption">(#fig:ExampleDecomposition) The Four Simple (2x2)
+Difference-in-Differences Estimates from the Three Group Case</p>
+</div>
+<p>From this, the paper covers a lot of the potential problems with the
+standard DiD-estimator and TWFE-models.</p>
+<div id="the-problems-it-identifies" class="section level3"
+number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> The problems it
+identifies</h3>
+<div id="problem-1-staggered-adoption" class="section level4"
+number="1.1.1.1">
+<h4><span class="header-section-number">1.1.1.1</span> Problem 1:
+Staggered adoption</h4>
+<p>Most DiD-applications have <a
+href="definitions.html"><strong>staggered adoption</strong></a>. The
+DiD-estimator is the weighted average of all two-group comparisons.
+Units will be weighted by:</p>
+<ul>
+<li><p>Group size</p></li>
+<li><p>Variance of treatment</p></li>
+</ul>
+<p>– Observations with below mean levels of residualized treatment
+intensity (after controlling for country FE) receive negative weight,
+and may be thought of as part of the comparison group. <em>Haakon: I
+can’t really remember if referred to the DiD-estimator or if this
+referred to the TWFE?? I guess maybe both since DiD estimator is
+equivalent to the linear two-way fixed effects regression estimator if
+there are two time periods and the treatment is administered to some
+units only in the second time period.</em></p>
+</div>
+<div
+id="problem-2-early-treatment-spills-into-did-estimate-of-late-treatment"
+class="section level4" number="1.1.1.2">
+<h4><span class="header-section-number">1.1.1.2</span> Problem 2: Early
+treatment spills into DiD-estimate of late treatment</h4>
+<p>Many effects do not appear instantly, but could be slow moving. It is
+possible that units that receives the treatment late are compared to
+units that have received the treatment and where the full effect of the
+first treatment has not yet manifested.</p>
+<p>The following figure illustrates a scenario where the late treated
+will be compared to the early treated while the early treated is still
+manifesting the effect of the treatment:</p>
+<pre class="r"><code>slow &lt;- data.frame(id = c(rep(&quot;Early treated&quot;, 6),
+                          rep(&quot;Late treated&quot;, 6),
+                          rep(&quot;Never treated&quot;, 6)),
+                        time = rep(1:6, 3),
+                        y = c(rep(2, 2), 3, 4, 5, 5,
+                              rep(1, 3), 2, rep(3, 2),
+                              rep(0, 6)),
+                        Treated = c(rep(&quot;No&quot;, 2), rep(&quot;Yes&quot;, 4),
+                                    rep(&quot;No&quot;, 3), rep(&quot;Yes&quot;, 3),
+                                    rep(&quot;No&quot;, 6)
+                        ) 
+)
+
+ggplot(slow, aes(x = time, y = y, group_by = id, color = id)) +
+  geom_line() +
+  scale_color_manual(values = c(&quot;red&quot;, &quot;darkgreen&quot;, &quot;blue&quot;)) +
+  scale_fill_manual(values = c(&quot;white&quot;, &quot;grey50&quot;)) +
+  geom_label(aes(label = y, fill = Treated)) +
+  scale_y_continuous(limits = c(-1, 5), breaks = c( 0:5 ) ) +
+  theme_minimal()</code></pre>
+<p><img src="problems_files/figure-html/slow_treatment-1.png" width="672" /></p>
+</div>
+</div>
+<div id="implementing-goodman-bacon-decomposition"
+class="section level3" number="1.1.2">
+<h3><span class="header-section-number">1.1.2</span> Implementing
+Goodman-Bacon-decomposition</h3>
+<p>The Goodman-Bacon decomposition allows you to inspect the existence
+of negative weights. The following code does this:</p>
+<pre class="r"><code>library(bacondecomp) #Relies on fixest for the regression
+source(&quot;Data/generate_panel_data.R&quot;) #Generate random data
+
+df_bacon &lt;- bacon(y ~ treat,
+                  data = dat,
+                  id_var = &quot;id&quot;,
+                  time_var = &quot;time&quot;)
+
+ggplot(df_bacon) +
+  aes(x = weight, y = estimate, shape = factor(type)) +
+  geom_point() +
+  geom_hline(yintercept = 0) + 
+  theme_minimal() +
+  labs(x = &quot;Weight&quot;, y = &quot;Estimate&quot;, shape = &quot;Type&quot;)</code></pre>
+<p><img src="problems_files/figure-html/decomp-1.png" width="672" /></p>
+</div>
+</div>
+<div id="Jakiela" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Jakiela 2021</h2>
+<div id="the-problem-it-solves" class="section level3" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> The problem it
+solves</h3>
+<p>How to diagnose problems in two-way fixed effects models.</p>
+<p>TWFE gives biased estimates if treatment is applied at different
+times (staggered adoption). In practice, TWFE gives negative weights.
+Most likely to happen with early treated and more likely to happen in
+late period. Treated units with negative weights will effectively be
+control-observations for other treated units.</p>
+<p>Having negative weights on treated observations is not necessarily
+bad. Less likely to be a problem if you have</p>
+<ol style="list-style-type: decimal">
+<li><p>Enough never-treated observations and</p></li>
+<li><p>Enough pre-treatment data</p></li>
+<li><p>And the treatment effects are homogeneous across all
+countries.</p></li>
+</ol>
+</div>
+<div id="the-way-it-solves-it" class="section level3" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> The way it solves
+it</h3>
+<p>The paper gives a way to diagnose problems. Two questions must be
+answered:</p>
+<ol style="list-style-type: decimal">
+<li><p>Do I have negative weights?</p></li>
+<li><p>Can we reject the hypothesis that the treatment effects are
+homogeneous?</p></li>
+</ol>
+<p>Use treatment as the outcome and calculate residuals from that.
+<code>R</code> code in Goodman-Bacon.</p>
+<p>Some solutions if you have the problem:</p>
+<ol style="list-style-type: decimal">
+<li>Exclude later years</li>
+<li>Limit how many post-treatment years are kept</li>
+<li>Exclude individual countries</li>
+</ol>
+</div>
+<div id="summary-of-jakiela-2021-from-andrew-heiss"
+class="section level3" number="1.2.3">
+<h3><span class="header-section-number">1.2.3</span> Summary of Jakiela
+2021 from Andrew Heiss</h3>
+<p>Andre Heiss’ blog: <a
+href="https://www.andrewheiss.com/blog/2021/08/25/twfe-diagnostics/#residualized-weights-with-twfe-models"
+class="uri">https://www.andrewheiss.com/blog/2021/08/25/twfe-diagnostics/#residualized-weights-with-twfe-models</a></p>
+<ul>
+<li><p>We can think of OLS as a weighted sum of outcome values - these
+weights are typically negative for untreated observations and positive
+for treated observations</p></li>
+<li><p>In TWFE situations, these weights take country and year into
+account because of mathy reasons, treated observations can actually get
+negative weights – especially countries that are early adopters, and
+country-year observations in later years.</p></li>
+<li><p>We can see if these negative weights on treated observations are
+an issue by using a couple simple diagnostics: see how many and which
+treated observations have negative weights, and see if the treatment
+effect is homogeneous across treated countries</p></li>
+<li><p>We can look at which treated observations have negative weights
+by making some plots and exploring the data</p></li>
+<li><p>We can check for the homogeneity of the treatment effect by
+running a regression that uses the residualized treatment and treatment
+status to explain the residualized outcome.</p></li>
+<li><p>If the slopes for treated and comparison observations are
+indistinguishable, we can safely assume treatment homogeneity.</p></li>
+<li><p>Finally, we can check how robust the TWFE estimate is to negative
+treatment weights and the assumption of homogeneity by dropping specific
+types of observations and checking the ATE across these modified
+datasets</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
