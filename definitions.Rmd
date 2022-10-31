@@ -39,4 +39,6 @@ List of definitions used in the article:
 
 **Parallel trends**: The assumption that in the absence of treatment, the difference between the treatment and control group is constant over time.
 
-**Staggered adoption:** The assumption that treatment status never reverses. **Staggered intervention:** Units receive the treatment at different points in time.
+**Staggered adoption:** We find the articles to be inconsistent in the use of **staggered adoption** and **staggered intervention**. It either refers to the assumption that treatment status never reverses, or that units receive the treatment at different points in time, or both of these.
+
+**Staggered intervention:** We find the articles to be inconsistent in the use of **staggered adoption** and **staggered intervention**. It either refers to the assumption that treatment status never reverses, or that units receive the treatment at different points in time, or both of these.

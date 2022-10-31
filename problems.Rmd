@@ -94,7 +94,8 @@ ggplot(slow, aes(x = time, y = y, group_by = id, color = id)) +
 
 ```
 
-### Implementing Goodman-Bacon-decomposition
+### Decomposition code
+
 The Goodman-Bacon decomposition allows you to inspect the existence of negative weights. The following code does this:
 
 ```{r decomp, message=FALSE, warning=FALSE}
@@ -114,6 +115,7 @@ ggplot(df_bacon) +
   labs(x = "Weight", y = "Estimate", shape = "Type")
 
 ```
+
 
 ## Jakiela 2021 {#Jakiela}
 
@@ -148,9 +150,9 @@ Some solutions if you have the problem:
 2. Limit how many post-treatment years are kept
 3. Exclude individual countries
 
-### Summary of Jakiela 2021 from Andrew Heiss
+### Andrew Heiss' summary
 
-Andre Heiss' blog: https://www.andrewheiss.com/blog/2021/08/25/twfe-diagnostics/#residualized-weights-with-twfe-models
+Andrew Heiss' blog: https://www.andrewheiss.com/blog/2021/08/25/twfe-diagnostics/#residualized-weights-with-twfe-models
 
 - We can think of OLS as a weighted sum of outcome values - these weights are typically negative for untreated observations and positive for treated observations 
 

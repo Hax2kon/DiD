@@ -9,6 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Haakon Gjerløw" />
 
 
 <title>DiD-methods collection document</title>
@@ -358,35 +359,51 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">DiD-methods collection document</h1>
+<h4 class="author">Haakon Gjerløw</h4>
+<h4 class="date">22.10.2022</h4>
 
 </div>
 
 
-<div id="tldr-what-to-do" class="section level1">
-<h1>tldr; What to do?</h1>
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<p><a href="intro.html"><strong>Introduction</strong></a> introduces the
+DiD-estimator with the most basic canonical case, and then explains how
+more complex scenarios breaks the logic of the estimator.</p>
+<p><a href="problems.html"><strong>Problems</strong></a> list articles
+that identify problems with the standard TWFE and DiD-estimator, and
+ways to diagnose for those problems</p>
+<p><a href="solutions.html"><strong>Solutions</strong></a> gives a
+summery of articles that offer solutions to the <a
+href="problems.html"><strong>Problems</strong></a></p>
+<p><a href="definitions.html"><strong>Definitions</strong></a> is a list
+of definitions for common concepts in the literature</p>
+</div>
+<div id="tldr-just-give-me-the-answer" class="section level1">
+<h1>tldr; Just give me the answer</h1>
 <p>Many of the contributions talk about and deal with the same
-problem(s), and the main problem is that TWFE <em>potentially</em>
-assigns negative weights to some data points. In various ways, all
-solutions make the estimator more flexible in some way. This is usually
-at the expense of power, but could also tap into the bias-variance
-tradeoff. For applied researchers, there seems to be 2 contributions
-that will cover what you need:</p>
+problem(s), and the main problem is that TWFE/standard DiD-estimator
+<em>potentially</em> uses previously treated units as control-group
+units for other treated units. This is only a problem when units receive
+treatment at different points in time, and the effect of the treatment
+is heterogeneous. All solutions cost power.</p>
+<p>For applied researchers, 2 contributions cover what you need:</p>
 <p><strong>Diagnostics:</strong> <a
 href="problems.html"><strong>Goodman-Bacon 2018</strong></a> offers
-solutions to identify whether there is a problem with negative weight in
-your TWFE model. Out-of-the-box code in <code>R</code> and
-<code>Stata</code>.</p>
+solutions to identify whether there is a problem in your TWFE model.
+Out-of-the-box code in <code>R</code> and <code>Stata</code>.</p>
 <p><strong>Solution:</strong> <a href="solutions.html"><strong>Imai, Kim
 and Wang 2021</strong></a> offers a flexible solution which also
 incorporates matching for time-series cross-sectional data to establish
-parallel trends (balance on observable confounders).</p>
+parallel trends (balance on observable confounders). Out-of-the-box code
+in <code>R</code>.</p>
 <p>It remains a problem that the vast majority of articles only deal
 with binary treatment effects (but see <a
 href="https://arxiv.org/abs/2107.02637"><strong>Callaway, Goodman–Bacon,
 and Sant’Anna 2021</strong></a>). It is not at all obvious that forcing
-a numerical concept into a binary variable in order to be able to use
-these methods is a good idea: No estimator in the world can save you
-from wrong data.</p>
+a scalar concept into a binary variable in order to be able to use these
+methods is a good idea: No estimator in the world can save you from
+wrong data.</p>
 </div>
 <div id="other-resources" class="section level1">
 <h1>Other resources</h1>
