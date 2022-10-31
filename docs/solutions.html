@@ -336,6 +336,9 @@ div.tocify {
 <li>
   <a href="solutions.html">Solutions</a>
 </li>
+<li>
+  <a href="definitions.html">Definitions</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -393,7 +396,7 @@ it</h3>
 <p>Their proposed solution is best understood as a three-stage process.
 In stage 1 we construct, for each treated unit, a matched set of control
 units that share identical treatment status over an adjustable time
-period <a href="#definitions"><strong>L</strong></a>. In stage 2 we
+period <a href="definitions.html"><strong>L</strong></a>. In stage 2 we
 refine these matched sets of units by balancing over observed,
 time-varying confounders. In stage 3 we execute the DiD-estimator.</p>
 <pre class="r"><code>library(tidyverse);library(PanelMatch);library(did)
@@ -420,10 +423,10 @@ creating matched sets, units with similar pre-treatment periods
 <em>across the exact same time periods T</em> but with unequal treatment
 status in the triangles/circles are matched together to compose a set.
 In the left-hand panel (a), we are looking for units we can use to find
-the <a href="#definitions"><strong>ATT</strong></a>. The three red units
-and the three blue units compose separate matched sets with one treated
-unit and two control units. The grey units compose a third matched set
-with one treated unit and one control unit.</p>
+the <a href="definitions.html"><strong>ATT</strong></a>. The three red
+units and the three blue units compose separate matched sets with one
+treated unit and two control units. The grey units compose a third
+matched set with one treated unit and one control unit.</p>
 <p>The right-hand panel (b) is similar, but now we are looking for sets
 with which we can analyse the <a
 href="definitions.html"><strong>ART</strong></a>. The blue circle in
@@ -534,7 +537,7 @@ number="1.1.2.3">
 DiD-estimator</h4>
 <p>Before executing the DiD-estimator, the user needs to specify how
 long into the future the effect should occur, called <a
-href="#definitions"><strong>F</strong></a>. If F = 2 and treatment
+href="definitions.html"><strong>F</strong></a>. If F = 2 and treatment
 occurs in T = 0, then the outcome Y from T+2 is used. This is similar to
 lagging the treatment variable in a normal regression setup, but with a
 lead-logic instead. Once F is specified, we can proceed with the
