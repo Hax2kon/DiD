@@ -24,7 +24,7 @@ knit: (
 [**Problems**](problems.html) list articles that identify problems with the standard TWFE and DiD-estimator, and ways to diagnose for those problems
 
 
-[**Solutions**](solutions.html) gives a summery of articles that offer solutions to the [**Problems**](problems.html)
+[**Solutions**](solutions.html) gives a summary of articles that offer solutions to the [**Problems**](problems.html)
 
 
 [**Definitions**](definitions.html) is a list of definitions for common concepts in the literature

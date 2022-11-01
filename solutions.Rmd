@@ -278,19 +278,8 @@ Event-type plot:
 
 ### Things we didn't understand
 
-Many, us included, struggle to understand what the solution actually does. In many ways, many papers just do what Wooldridge suggests: Allow more flexibility.
+We struggled to understand what the solution actually does.
 
-<!-- ## Gardner 2021 -->
-
-<!-- ["Two-stage differences in differences" by Gardner, John (2022)](https://jrgcmu.github.io/2sdd2.pdf) -->
-
-<!-- R-package: [did2s](https://asjadnaqvi.github.io/DiD/docs/code_r/07_did2s_r/) -->
-
-<!-- ## Sun and Abrahams 2021 -->
-
-<!--     ["Estimating Dynamic Treatment Effects in Event Studies with Heterogeneous Treatment Effects" by Sun, Liyang and  Abraham, Sarah (2021)](https://www.sciencedirect.com/science/article/abs/pii/S030440762030378X) -->
-
-<!-- R-package: [sunab()-function](https://lrberge.github.io/fixest/reference/sunab.html) in [fixest](https://lrberge.github.io/fixest/index.html) -->
 
 ## Wooldridge 2021 {#wooldridge}
 
