@@ -1,13 +1,5 @@
 ---
 title: "Problems"
-output:
-  html_document:
-    toc: yes
-    df_print: paged
-    number_sections: yes
-    toc_float: yes
-    code_folding: hide
-
 knit: ( 
   function(input_file, encoding) {
     out_dir <- 'docs';
