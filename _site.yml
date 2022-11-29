@@ -1,9 +1,14 @@
 name: "OMGData"
 output_dir: "docs"
 output:  
-  html_document:  
+  bookdown::html_document2:  
     self_contained: no
     theme: paper
+    numbered_sections: yes
+    toc: yes
+    toc_float: yes
+    code_folding: hide
+  bookdown::pdf_document2: default
 navbar:
   title: "DiD Notes"
   left:

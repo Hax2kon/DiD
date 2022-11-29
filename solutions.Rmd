@@ -29,9 +29,7 @@ knitr::opts_chunk$set(echo = T,
 ```
 
 
-# Contributions that offer solutions
-
-## Imai, Kim and Wang 2022 {#ImaiKimWang}
+# Imai, Kim and Wang 2022 {#ImaiKimWang}
 
 ["Matching methods for Causal Inference with Time-Series Cross-Sectional Data" by Imai, K., Kim, I.S. and Wang, E.H. (2022)](https://doi.org/10.1111/ajps.12685)
 
@@ -39,7 +37,7 @@ R-package: [PanelMatch()](https://github.com/insongkim/PanelMatch).
 
 $~$
 
-### The problem it solves
+## The problem it solves
 
 Most matching methods are not fit for Time-Series Cross-Sectional (TSCS) data. The few solutions that exist assume [**staggered adoption**](definitions.html). They create a matched DiD-application for TSCS-data without this assumption.
 
@@ -47,7 +45,7 @@ They address staggered adoption both in the sense that units are treated at uneq
 
 $~$
 
-### The way it solves it
+## The way it solves it
 
 Their proposed solution is best understood as a three-stage process. In stage 1 we construct, for each treated unit, a matched set of control units that share identical treatment status over an adjustable time period [**L**](definitions.html). In stage 2 we refine these matched sets of units by balancing over observed, time-varying confounders. In stage 3 we execute the DiD-estimator.
 
@@ -60,7 +58,7 @@ data(dem) # Example data from "Democracy Does Cause Growth" by Acemoglu, Naidu, 
 
 $~$
 
-#### Stage 1: Constructing matched sets
+### Stage 1: Constructing matched sets
 
 In the first stage, units that experience the treatment are matched with units that do not experience the treatment (control). This is practically an exact-match procedure, but relying only on the units' treatment status over a user-specified length of time. This length of time is called [**L**](definitions.html) (short for Lags). If L = 0, units are matched solely on treatment status at time T, but this this would no longer be utilizing the time-dimension in the dataset.
 
@@ -107,13 +105,13 @@ mod <- PanelMatch(
 
 $~$
 
-#### Stage 2: Refine match sets
+### Stage 2: Refine match sets
 
 In stage 2 the goal is to establish balance on time-varying covariates within these matched sets over the pre-treatment period ([**L**](definitions.html)). This is to address the [**parallel trends assumption**](definitions.html). This can be done with many existing approaches, and the article suggests either using a matching procedure such as Mahalanobis distance or Propensity matching, or create unit weights.
 
 In the evaluations in the article, weighting performs better, and at times a lot better, than distance matching.
 
-##### Distance-balancing
+#### Distance-balancing
 
 *Using Mahalanobis-distance:* Computes standardized Mahalanobis-distance between the treated unit and each of its matched control units, averaged over the pre-treatment period.
 
@@ -121,7 +119,7 @@ In the evaluations in the article, weighting performs better, and at times a lot
 
 Once a distance measure has been selected and computed, the sample is reduced to the **J** most similar units within each matched set.
 
-##### Weight-balancing
+#### Weight-balancing
 
 Each control unit within each matched set is assigned a weight, with greater weight assigned to more similar units. This approach requires the user to select some method to determine similarity. The authors suggest [propensity score weighting](https://onlinelibrary.wiley.com/doi/10.1111/1468-0262.00442) or calibration weights.
 
@@ -159,7 +157,7 @@ mod <- PanelMatch(
 
 $~$
 
-#### Stage 3: The DiD-estimator
+### Stage 3: The DiD-estimator
 
 Before executing the DiD-estimator, the user needs to specify how long into the future the effect should occur, called [**F**](definitions.html). If F = 2 and treatment occurs in T = 0, then the outcome Y from T+2 is used. This is similar to lagging the treatment variable in a normal regression setup, but with a lead-logic instead. Once F is specified, we can proceed with the DiD-estimator.
 
@@ -211,13 +209,13 @@ $~$
 ```
 $~$
 
-### Unsolved problems
+## Unsolved problems
 
 -   Requires binary treatment
 
 $~$
 
-### List of assumptions
+## List of assumptions
 
 -   Parallel trends
 
@@ -227,20 +225,17 @@ $~$
 
 
 
-## Callaway and Sant'Anna 2021
+# Callaway and Sant'Anna 2021
 
 ["Difference-in-Differences with Multiple Time Periods" by Callaway, Brantly and Sant'Anna, Pedro H. C. (2021)](https://www.sciencedirect.com/science/article/abs/pii/S0304407620303948)
 
-R-package: [did](https://cran.r-project.org/web/packages/did/vignettes/did-basics.html)
+## The problem it solves
 
-### The problem it solves
+Callaway and Sant'Anna provide a way to estimate the ATT under staggered treatment and heterogeneous treatment effects. The [did](https://cran.r-project.org/web/packages/did/vignettes/did-basics.html) R-package includes a simple to use approach to correctly estimate the group-time average treatment effects. Also see the [did webpage](https://bcallaway11.github.io/did/) for more information.
 
-Heterogeneous treatment effects: What is compared to what?
+## The way it solves it
 
-They argue that there is no problem with staggered adoption if effect is homogeneous. Problem is homogeneous effects
-
-### The way it solves it
-Estimate the effect at various time periods. Then the first treatment effects is updated by later treatment effects.
+By avoiding bad control groups (e.g., comparing treated units with already treated units, or if one thinks that the never-treated group is different from the group that eventually becomes treated, one can also only use the not yet treated group as control). Provides ways to aggregate the treatment effects into group-time treatment effects, the average group-level treatment effect, or the average effect of participating in treatment for groups that have been exposed to treatment exactly $n$ time periods. The default approach is a parametric doubly robust approach (using both inverse probability weighting and regression estimators). See ["Potential Outcomes, Treatment Effects, and Estimation Methods"](https://www.dropbox.com/sh/zj91darudf2fica/AADWlJIH9SI3XvtADXgYma0ka/ESTIMATE_DiD?dl=0&preview=ESTIMATE_TRF_0.mp4&subfolder_nav_tracking=1) for an explanation of what "doubly robust" means (at the end of the lecture).
 
 This code implements the method:
 
@@ -266,7 +261,7 @@ This code implements the method:
     
 ```
 
-Event-type plot:
+Event-study plot:
 
 ```{r, message=FALSE, warning=FALSE, height=12}
     #Event-type plot
@@ -276,24 +271,37 @@ Event-type plot:
 ```
 
 
-### Things we didn't understand
-
-We struggled to understand what the solution actually does.
-
-
-## Wooldridge 2021 {#wooldridge}
+# Wooldridge 2021 {#wooldridge}
 
 ["Two-Way Fixed Effects, the Two-Way Mundlak Regression, and Difference-in-Differences Estimators" by Wooldridge, Jeffrey M. (2021)](https://www.researchgate.net/publication/353938385_Two-Way_Fixed_Effects_the_Two-Way_Mundlak_Regression_and_Difference-in-Differences_Estimators)
 
 Wooldridge's [Dropbox folder](https://t.co/q1AnkhEF97) (Contains Stata-code)
 
-[The Tweet](https://twitter.com/jmwooldridge/status/1427472491367305219?s=20&t=t0PDmFzAL9-lokGyUo0r7A)
+[The Tweet](https://twitter.com/jmwooldridge/status/1427472491367305219)
+
+## The problem it solves
+
+Wooldridge shows in this article that the issue with staggered intervention and heterogeneous treatment effects can be solved by altering the parameterization of the linear regression model. He also shows that you can get similar results both using TWFE or a pooled model where group level averages are included into the model (the Two-Way Mundlak model). The benefit with the latter approach is that it is easily adapted to non-linear models such as exponential, logit, and probit models. This idea is further elaborated in another article: ["Simple Approaches to Nonlinear Difference-in-Differences with Panel Data"](https://www.researchgate.net/publication/362532821_Simple_Approaches_to_Nonlinear_Difference-in-Differences_with_Panel_Data). Wooldridge has also recorded a ["lecture on this topic"](https://www.dropbox.com/sh/zj91darudf2fica/AADj_jaf5ZuS1muobgsnxS6Za?dl=0&preview=did_seminar_20210923.mp4) (link to his shared Dropbox folder). The introduction to ["Potential Outcomes, Treatment Effects, and Estimation Methods"](https://www.dropbox.com/sh/zj91darudf2fica/AADWlJIH9SI3XvtADXgYma0ka/ESTIMATE_DiD?dl=0&preview=ESTIMATE_TRF_0.mp4&subfolder_nav_tracking=1) also comes highly recommended.
 
 
-### The problem it solves
-Lots of fancy new stuff, but you can also just use regression.
+## The way it solves it
 
+TWFE equation for non-staggered homogeneous treatment:
+\begin{equation}
+Y_{it} = \alpha + \beta w_{it} + c_i + g_t + u_{it}, t = 1, ..., T; i = 1,2,...,N
+\end{equation}
+TWM equation non-staggered homogeneous treatment:
+\begin{equation}
+Y_{it} = \alpha + \beta w_{it} + d_i + p_t + u_{it}, t = 1, ..., T; i = 1,2,...,N
+\end{equation}
 
-### The way it solves it
-Instead of having dummies for each group, you can just control for the average. And then adding interaction terms to these solves all of the various problems.
+where $d_i = 1$ if eventually treated (are you in the treated or control group), $p_t = 1$ if a post-treatment period (are you in pre- or post-treatment period), and $w_{it} = d_i \cdot p_t$
+
+TWM equation for staggered heterogeneous treatment:
+\begin{equation}
+Y_{it} = \alpha + \beta_q (w_{it} \cdot fq_t) + ... + \beta_T (w_{it} \cdot fT_t) + \xi d_i + \theta_q fq_t + ... + \theta_T fT_t  + u_{it}, t = 1, ..., T; i = 1,2,...,N
+\end{equation}
+where $p_t = fq_t + ... + fT_t = 1$ ($fq_t$ being an indicator for a specific post-treatment period)
+
+Knowing about this kind of approach, although more cumbersome for estimating the standard cohort effect using e.g., Callaway and Sant'Anna's approach, could be useful e.g., if you want to specify cohort specific covariate effects.
 

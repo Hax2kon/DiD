@@ -1,12 +1,5 @@
 ---
 title: "Introduction to DiD"
-output:
-  html_document:
-    toc: yes
-    df_print: paged
-    number_sections: yes
-    toc_float: yes
-    code_folding: hide
 
 knit: ( 
   function(input_file, encoding) {
@@ -39,7 +32,7 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 ## The Canonical Case
 The canonical case is illustrated by 2 units at 2 points in time, giving a 2x2 matrix. One unit is treated, the other is not. The following graph illustrates this situation:
 
-```{r canonincal, fig.cap="The canonincal case", warning = FALSE}
+```{r canonical, fig.cap="The canonical case", warning = FALSE}
 canon <- data.frame(id = paste0("Unit ",
                                 rep(1:2, each = 2)),
                     time = rep(1:2, 2),
@@ -71,9 +64,9 @@ We can complicate the canonical case in three ways, each of which offers problem
 
 ### Staggered adoption
 
-Staggered adoption refers to the situation where units receive the treatment at different points in time. Staggered adoption does not cause any problem for the DiD-estimator/TWFE if the treatment effect is homogeneous and instantaneous (see [**Goodman-Bacon**](problems.html)).
+Staggered adoption refers to the situation where units receive the treatment at different points in time. Staggered adoption does not cause any problem for the DiD-estimator/TWFE if the treatment effect is homogeneous or instantaneous (see [**Goodman-Bacon**](problems.html)).
 
-Figure \@ref(fig:staggered) illustrates a situation with 3 units and staggered adoption of treatment.
+Figure \@ref(fig:staggered) illustrates a situation with 3 units, staggered adoption of treatment, and homogeneous treatment effects.
 
 ```{r staggered, fig.cap="Staggered adoption"}
 staggered <- data.frame(id = paste0("Unit ",
@@ -101,7 +94,7 @@ ggplot(staggered, aes(x = time, y = y, group_by = id, color = id)) +
 
 ### Heterogeneous treatment effect
 
-The combination of staggered adoption and heterogeneous treatment effect _can_ cause the standard DiD-estimator/TWFE to assign negative ``weights'' to treated units (see [**Goodman-Bacon**](problems.html) and [**Jakiela**](problems.html)). If this happens, treated units start to act as non-treated comparisons for other treated units.
+The combination of staggered adoption and heterogeneous treatment effect _can_ cause the standard DiD-estimator/TWFE to assign negative ``weights'' to treated units (see [**Goodman-Bacon**](problems.html) and [**Jakiela**](problems.html)). If this happens, already treated units start to act as non-treated comparisons for other treated units.
 
 Figure \@ref(fig:hetero) illustrates a situation with 3 units, staggered adoption of treatment and heterogeneous treatment effects.
 
@@ -192,18 +185,13 @@ ggplot(slow, aes(x = time, y = y, group_by = id, color = id)) +
 
 ```
 
-
 ## Summary: Problems for TWFE
 
+The potential problems with the standard TWFE estimator can be summarized in 2 points:
 
-The potential problems with the standard TWFE approach can be summarized in 2 points:
+1. Treated units can receive negative treatment weights. This occurs because already treated units can enter into the equation as control units.
 
-1. Units receive negative weights
+2. Rely on parametric assumptions that might not be correct.
 
-2. Rely on parametric assumptions
-
-
-Strictly speaking, only the issue of negative weights is a problem for inference. Parametric assumptions are just less convenient.
-
-Most contributions offer solutions to adapt the DiD-estimator to these problems, but [**Wooldridge**](solutions.html) offers solutions using TWFE-models.
+The contributions offer two general approaches to adapt the DiD-estimator to these problems: a) a divide-and-conquer approach that splits the many-on-many comparison into many 2-by-2 comparisons and filter out those we should not use (e.g., comparisons between already treated and newly treated units), and  b) correct parameterization of the regression problem (e.g., estimating ATT for each treatment cohort). See [**Solutions**](solutions.html) for more details.
 
