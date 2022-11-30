@@ -1,6 +1,6 @@
 ---
 title: "DiD-methods collection document"
-author: Haakon Gjerløw
+author: Haakon Gjerløw and Jonas Vestby
 date: 22.10.2022
 
 knit: ( 

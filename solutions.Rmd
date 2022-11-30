@@ -70,7 +70,7 @@ Any data point that does not enter into a matched set is discarded.
 
 $~$
 
-![(#fig:ExampleStage1) An Example of Matched Sets with Five Units and Six Time Periods and with L = 3](Graphics/ajps12685-fig-0002-m.jpg)
+![(#fig:ExampleStage1) An Example of Matched Sets with Five Units and Six Time Periods and with L = 3](docs/Graphics/ajps12685-fig-0002-m.jpg)
 
 $~$
 

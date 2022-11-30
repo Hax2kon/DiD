@@ -36,7 +36,7 @@ Late treated  - Never treated
 Early treated - Late treated, before the treatment of the Early treated occurs
 Late treated  - Early treated, after the treatment of the Early treated occurs
 
-![(#fig:ExampleDecomposition) The Four Simple (2x2) Difference-in-Differences Estimates from the Three Group Case](Graphics/Decomposition.png)
+![(#fig:ExampleDecomposition) The Four Simple (2x2) Difference-in-Differences Estimates from the Three Group Case](Docs/Graphics/Decomposition.png)
 
 
 From this, the paper covers a lot of the potential problems with the standard DiD-estimator and TWFE-models.
