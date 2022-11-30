@@ -64,7 +64,7 @@ We can complicate the canonical case in three ways, each of which offers problem
 
 ### Staggered adoption
 
-Staggered adoption refers to the situation where units receive the treatment at different points in time. Staggered adoption does not cause any problem for the DiD-estimator/TWFE if the treatment effect is homogeneous or instantaneous (see [**Goodman-Bacon**](problems.html)).
+Staggered adoption refers to the situation where units receive the treatment at different points in time. Staggered adoption does not cause any problem for the DiD-estimator/TWFE if the treatment effect is homogeneous (see [**Goodman-Bacon**](problems.html)).
 
 Figure \@ref(fig:staggered) illustrates a situation with 3 units, staggered adoption of treatment, and homogeneous treatment effects.
 
