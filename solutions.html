@@ -369,7 +369,7 @@ div.tocify {
 <div id="the-problem-it-solves" class="section level2" number="1.1">
 <h2><span class="header-section-number">1.1</span> The problem it solves</h2>
 <p>Most matching methods are not fit for Time-Series Cross-Sectional (TSCS) data. The few solutions that exist assume <a href="definitions.html"><strong>staggered adoption</strong></a>. They create a matched DiD-application for TSCS-data without this assumption.</p>
-<p>They address staggered adoption both in the sense that units are treated at unequal T, but also that there is a Average Causal effect of Reversal (ART), so that units jump back and forth in being treated.</p>
+<p>They address staggered adoption both in the sense that units are treated at unequal T, but also that there is a Average Causal effect of Reversal (ART), so that units jump back and forth in being treated. To our knowledge, this is the only solution that seamlessly integrates both of these effects.</p>
 <p><span class="math inline">\(~\)</span></p>
 </div>
 <div id="the-way-it-solves-it" class="section level2" number="1.2">
@@ -386,7 +386,7 @@ data(dem) # Example data from &quot;Democracy Does Cause Growth&quot; by Acemogl
 <p>Any data point that does not enter into a matched set is discarded.</p>
 <p><span class="math inline">\(~\)</span></p>
 <div class="figure"><span style="display:block;" id="fig:ExampleStage1"></span>
-<img src="Graphics/ajps12685-fig-0002-m.jpg" alt="" />
+<img src="docs/Graphics/ajps12685-fig-0002-m.jpg" alt="" />
 <p class="caption">Figure 1.1:  An Example of Matched Sets with Five Units and Six Time Periods and with L = 3</p>
 </div>
 <p><span class="math inline">\(~\)</span></p>
@@ -703,7 +703,7 @@ ggplot(mean_mod, aes(x = time_to_treatment, y = mean_est, ymax = mean_max, ymin 
 <p><img src="solutions_files/figure-html/twm_time_average-1.png" width="2304" /></p>
 <div id="extensions-1" class="section level3" number="3.3.1">
 <h3><span class="header-section-number">3.3.1</span> Extensions</h3>
-<p>There are various non-paramteric alteration we could make to the data. For example, we could restrict it to only include a certain number of years before and after treatment occurs. We could add a <em>quarantine</em> period for observations after treatment reverses, if we want units to be able to re-enter the dataset after reversal, but not right away.</p>
+<p>There are various non-paramteric alteration we could make to the data. For example, we could restrict it to only include a certain number of years before and after treatment occurs. We could add a quarantine period for observations after treatment reverses, if we want units to be able to re-enter the dataset after reversal, but not right away.</p>
 </div>
 </div>
 </div>

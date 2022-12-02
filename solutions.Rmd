@@ -41,7 +41,8 @@ $~$
 
 Most matching methods are not fit for Time-Series Cross-Sectional (TSCS) data. The few solutions that exist assume [**staggered adoption**](definitions.html). They create a matched DiD-application for TSCS-data without this assumption.
 
-They address staggered adoption both in the sense that units are treated at unequal T, but also that there is a Average Causal effect of Reversal (ART), so that units jump back and forth in being treated.
+They address staggered adoption both in the sense that units are treated at unequal T, but also that there is a Average Causal effect of Reversal (ART), so that units jump back and forth in being treated. To our knowledge, this is the only solution that seamlessly integrates both of these effects.
+
 
 $~$
 
@@ -209,6 +210,10 @@ $~$
 ```
 $~$
 
+### Extensions
+Step 1 of the `PanelMatch()`-approach is intuitive and rather straight-forward. While it is currently not implemented in the `R`-package, one the initial matching and balancing has been done, we could estimate the ATT with Poisson, logit, or other distributions.
+
+
 ## Unsolved problems
 
 -   Requires binary treatment
@@ -305,3 +310,207 @@ where $p_t = fq_t + ... + fT_t = 1$ ($fq_t$ being an indicator for a specific po
 
 Knowing about this kind of approach, although more cumbersome for estimating the standard cohort effect using e.g., Callaway and Sant'Anna's approach, could be useful e.g., if you want to specify cohort specific covariate effects.
 
+
+## An example implementation of TWM for real TSCS data in R
+
+For applied researchers like ourselves, implementing Wooldridge's TWM was not straight forward. Here, we give a step-by-step guide for how to setup the data and estimate the ATT, using the dataset from [Acemoglu, Naidu, Restrepo and Robindson (2019)](https://www.journals.uchicago.edu/doi/10.1086/700936). This is the same dataset used as an example for `PanelMatch()` above.
+
+In doing this, we want the code to be able to accommodate all kinds of complexities: staggered adoption, treatment reversal, heterogeneous treatment effects, and the presence of never-treated and always-treated units.
+
+
+```{r twm_example_preperation, message=FALSE, warning=FALSE}
+library(PanelMatch);library(fixest)
+data(dem)
+
+
+```
+
+
+The dataset comes as a common country-year long-format table. The variables of interest for us is the unit ID (`wbcode2`), year (`year`), and whether or not country `i` is a democracy (`dem`) at time `t`. We need some more stuff:
+
+1. A time-until/since-treatment-occurred variable, with separate categories from always- and never-treated
+2. Cohort dummies that identifies:
+    + units that are treated in the same year
+    + units that were already treated when time-series started
+    + units that are never treated
+3. Deal with reversal, by one of two ways:
+    + Delete all years for a unit from the year it reverses, or
+    + Separate units into multiple spells, with a new spell created for a unit each time it reverses to non-treated status
+        + **_NOTE:_**  Separating units into multiple spells at reversal is not something Wooldridge suggests, but we do not see any reason why it shouldn't work. We can cluster the standard errors by country (and not country-spell) to deal with non-independent error terms.
+
+
+
+To get the list of items above, we first need to identify whether and in what year a unit is treated. We can do this by simply comparing democracy status in t with t-1. But in doing this, we need to fix another complication: We can't have missing data, as this will ruin later code. When lagging, we will have missing data in the first year. If you are willing to assume that treatment-status did not change in the first year, you can simply assign the same status code to democracy in t-1 is it has in t.
+
+```{r twm_lag_dem, message=FALSE, warning=FALSE}
+
+#####     Goal 1: Identify when a unit is treated
+#Lag dem by 1 to identify when change occurs
+dem <- dem[order(dem$wbcode2, dem$year),] #Order before lag
+dem <- dem %>% group_by(wbcode2) %>% mutate(dem_lag1 = lag(dem))
+
+#We can't have missing data, as this will ruin later code. But if you are willing to assume that treatment-status did not change in the first year, you can run this code
+dem$dem_lag1 <- ifelse(is.na(dem$dem_lag1)==TRUE, dem$dem,
+                       dem$dem_lag1) #Assume that treatment status was equal to first year
+
+
+```
+
+
+We still need to remove rows with missing information on our treatment (`dem`). A word of caution: Make sure that this does not delete time-series in the middle of a country's history, only at start or end. You must avoid this:
+
+```{r twm_na_problematic_situation, message=FALSE, warning=FALSE}
+error_example <- data.frame("ID" = 1,
+                            "year" = 1970:1973,
+                            "dem_lag1" = c(1, NA, NA, 1))
+
+knitr::kable(error_example)
+
+```
+
+
+You can diagnose whether this is a problem. If this code returns any FALSE, you need to inspect:
+
+```{r diagnose_time_jump, message=FALSE, warning=FALSE}
+table(dem %>% subset(is.na(dem_lag1)==FALSE) %>%
+        group_by(wbcode2) %>%
+        mutate(duration_since_last_year = 1==(year - lag(year, 1)) ) %>% ungroup() %>%
+        select(duration_since_last_year))
+
+```
+
+Once this is corrected, you can delete rows:
+
+```{r twm_remove_na, message=FALSE, warning=FALSE}
+###     If diagnose is ok, you can delete rows
+dem <- dem[which(is.na(dem$dem_lag1)==FALSE),]
+
+```
+
+
+Now you can identify change in treatment-status. Here we create the variable `change_in_dem`, which can have the values -1 (reversal), 0 (status quo), and 1 (treated).
+
+```{r twM_change_in_dem, message=FALSE, warning=FALSE}
+###     Identify change in treatment status
+dem$change_in_dem <- dem$dem - dem$dem_lag1 #change_in_dem can now take the values -1 (reversal), 0 (status quo), and 1 (treated)
+
+```
+
+Now we wncounter point 4 above: How should we deal with reversal? We start by identifying the occurrences of reversal, and assign unit-spell IDs, so that each unit has a new ID for each time it reverses:
+
+```{r twm_identify_reversal, message=FALSE, warning=FALSE}
+
+#####     Deal with reversal
+###     If you want to include the same country multiple times, it must be considered a new unit each time it reverses back to none-treated status:
+dem$reversal <- ifelse(dem$change_in_dem < 0, 1, 0)
+dem <- dem %>% group_by(wbcode2) %>% mutate(spell = cumsum(reversal)) #Count number of reversals
+dem$unit_spell_id <- paste0(dem$wbcode2, "_", dem$spell) #By combining unit-id with number of reversals, we now have a unit-spell-ID.
+
+```
+
+If you want to go with solution 1 to the reversal problem, to simply delete all country-years once a country reverses, run the following code. If you want to keep countries as separate units after each reversal, do not run the following code.
+
+```{r twm_delete_reversals, message=FALSE, warning=FALSE, eval = FALSE}
+#If you want to delete everything after reversal, do this:
+dem <- dem[which(dem$spell<1),]
+
+```
+
+Right, 1/3 points dealt with. We now continue on to identify when treatment occurs for a unit, and then assign all units to a cohort dependeing on when treatment occurred:
+
+```{r twm_identify_treatment, message=FALSE, warning=FALSE}
+#####     Identify points in time where treatment occurs
+dem$treated_this_year <- ifelse(dem$change_in_dem < 0, 0, dem$change_in_dem) #Converts -1 to 0
+
+
+#####     Identify cohort
+dem <- dem[order(dem$unit_spell_id, dem$year), ]
+tmp_cohortdat  <- dem[which(dem$treated_this_year==1), c("unit_spell_id", "year")]
+tmp_cohortdat  <- tmp_cohortdat %>% rename(cohort = year) #Units will now be given cohort ID equal to the year they were treated
+dem <- full_join(dem, tmp_cohortdat)
+rm(tmp_cohortdat)
+
+```
+
+The keen eye will notice that the above code does not assign any cohort to never-treated and always-treated units, because `treated_this_year` is always 0 for these units. This is because we want to create a time-until/since-treatment-occurred (point 2 above) before we do this. This is easier to do when we can treat `cohort` as a numeric variable, which we can't once we assign cohorts to never-treated and always-treated (they do not have any meaningful treatment-year).
+
+Here, we create `time_to_traetment`, which is our time-until/since-treatment-occurred-variable.
+
+```{r twm_create_time_relative_variable, message=FALSE, warning=FALSE}
+###     Create relative-time-to-treatment: (we need to adjust this later but easier to create while we can keep "cohort" numeric)
+dem$time_to_treatment <- dem$year-dem$cohort #This is easier to create while we can have cohort numeric (which we can't once we give a cohort to never- and always-treated)
+```
+
+We can now assign cohort to always- and never- treated units:
+
+```{r twm_cohort_to_never_always, message=FALSE, warning=FALSE}
+###     Give cohort to always- and never-treated
+dem <- dem %>% mutate(cohort = ifelse(is.na(cohort)==TRUE & dem==1, "always_treated",
+                                       ifelse(is.na(cohort)==TRUE & dem==0, "never_treated", as.character(cohort) ) ) )
+```
+
+And we also need to give values to always- and never-treated units on the `time_to_treatment`-variable.
+
+```{r twm_relative_time_to_never_always, message=FALSE, warning=FALSE}
+###     Give relative-time also to never- and always- treated
+dem$time_to_treatment <- ifelse(dem$cohort == "never_treated", "Infinity",
+                                ifelse(dem$cohort == "always_treated", "-Infinity", as.character(dem$time_to_treatment)
+                                ))
+```
+
+
+This is some obsolete code that we don't think is needed, but it creates Wooldridge's _w_:
+```{r twm_w, message=FALSE, warning=FALSE}
+###     Indicate if unit will ever be (or always was) treated
+dem$eventually_treated <- ifelse(dem$cohort=="never_treated", 0, 1) #This code is probably obsolete but not really sure. Useful to produce Wooldridge's w-variable. 
+
+#####     Create the Wooldridge's w
+dem$w <- dem$eventually_treated * dem$dem #w_i_t = d_i * p_t = (will unit be treated) * (are you in post-treatment-period)
+
+
+```
+
+
+And we have solved all points on our list. We can now get all sorts of estimates with simple regression. The power of the Mundlak-approach is that it flexible for different distributions, e.g. gaussian, poisson, logit etc.
+
+Here, we estimate the cohor-specific ATT, and show that it is quite dramatically heterogeneous:
+
+```{r twm_att_heteroplot, message=FALSE, warning=FALSE, fig.height=12, fig.width=24}
+
+#####   Estimate ATT
+mod <- feols(y ~ factor(cohort) : factor(time_to_treatment) | year , data = dem, cluster = ~wbcode2)
+#####     Graph
+mod <- tidy(mod, conf.int = TRUE)
+
+###   Clean term to get the useful information
+mod$cohort <- gsub(".*cohort.(.*):factor.*", "\\1", mod$term)
+mod$time_to_treatment <- as.numeric(gsub(".*time_to_treatment.(.*)$", "\\1", mod$term))
+
+### Remove always-treated from plot
+mod <- mod %>% subset(time_to_treatment>-Inf)
+
+### Plot
+ggplot(mod, aes(y = estimate, ymin = conf.low, ymax = conf.high, x = time_to_treatment, fill=cohort)) +
+  geom_line() +
+  geom_ribbon(alpha = 0.5) +
+  geom_vline(xintercept = 0) +
+  theme_minimal()
+
+```
+
+Lots of heterogeneity, but is there a signal in there somewhere? We can get the mean for each point in `time_to_treatment`, which shows the clear effect of democracy on GDP:
+
+```{r twm_time_average, message=FALSE, warning=FALSE, fig.height=12, fig.width=24}
+mean_mod <- mod %>% group_by(time_to_treatment) %>% mutate(mean_est = mean(estimate),
+                                                           mean_max = mean(conf.high),
+                                                           mean_low = mean(conf.low))
+ggplot(mean_mod, aes(x = time_to_treatment, y = mean_est, ymax = mean_max, ymin = mean_low)) +
+  geom_ribbon(alpha = 0.7) +
+  geom_line() +
+  geom_vline(xintercept = 0) +
+  theme_minimal()
+```
+
+
+### Extensions
+There are various non-paramteric alteration we could make to the data. For example, we could restrict it to only include a certain number of years before and after treatment occurs. We could add a quarantine period for observations after treatment reverses, if we want units to be able to re-enter the dataset after reversal, but not right away.
