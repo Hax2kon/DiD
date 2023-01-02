@@ -35,3 +35,4 @@ List of definitions used in the article:
 **Staggered adoption/staggered intervention:** The most common meaning of this is that treatment occurs at different points in time for different units in the data.
 
 **TWM:** Two-Way Mundlak-regression
+

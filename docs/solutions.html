@@ -361,6 +361,7 @@ div.tocify {
 </div>
 
 
+<p>Multiple contributions offer various ways to deal with the potential <a href="problems.html"><strong>problems</strong></a>. We found <strong>Imai, Kim and Wang 2022</strong> and <strong>Wooldridge 2021</strong> particularly useful.</p>
 <div id="ImaiKimWang" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Imai, Kim and Wang 2022</h1>
 <p><a href="https://doi.org/10.1111/ajps.12685">“Matching methods for Causal Inference with Time-Series Cross-Sectional Data” by Imai, K., Kim, I.S. and Wang, E.H. (2022)</a></p>
@@ -369,13 +370,14 @@ div.tocify {
 <div id="the-problem-it-solves" class="section level2" number="1.1">
 <h2><span class="header-section-number">1.1</span> The problem it solves</h2>
 <p>Most matching methods are not fit for Time-Series Cross-Sectional (TSCS) data. The few solutions that exist assume <a href="definitions.html"><strong>staggered adoption</strong></a>. They create a matched DiD-application for TSCS-data without this assumption.</p>
-<p>They address staggered adoption both in the sense that units are treated at unequal T, but also that there is a Average Causal effect of Reversal (ART), so that units jump back and forth in being treated.</p>
+<p>They address staggered adoption both in the sense that units are treated at unequal T, but also that there is a Average Causal effect of Reversal (ART), so that units jump back and forth in being treated. To our knowledge, this is the only solution that seamlessly integrates both of these effects.</p>
 <p><span class="math inline">\(~\)</span></p>
 </div>
 <div id="the-way-it-solves-it" class="section level2" number="1.2">
 <h2><span class="header-section-number">1.2</span> The way it solves it</h2>
 <p>Their proposed solution is best understood as a three-stage process. In stage 1 we construct, for each treated unit, a matched set of control units that share identical treatment status over an adjustable time period <a href="definitions.html"><strong>L</strong></a>. In stage 2 we refine these matched sets of units by balancing over observed, time-varying confounders. In stage 3 we execute the DiD-estimator.</p>
-<pre class="r"><code>library(tidyverse);library(PanelMatch);library(did)
+<pre class="r"><code>library(tidyverse);library(PanelMatch);library(fixest);library(did2s);library(did)
+
 data(dem) # Example data from &quot;Democracy Does Cause Growth&quot; by Acemoglu, Naidu, Restrepo, and Robinson (2019)</code></pre>
 <p><span class="math inline">\(~\)</span></p>
 <div id="stage-1-constructing-matched-sets" class="section level3" number="1.2.1">
@@ -515,77 +517,112 @@ data(dem) # Example data from &quot;Democracy Does Cause Growth&quot; by Acemogl
 <li><p>Assumed causal order: Confounders Z are realized before treatment X is realized before outcome Y</p></li>
 <li><p>Assumes absence of between-unit spillover effects (they are looking into applications without this assumption)</p></li>
 </ul>
+<p>–</p>
 </div>
 </div>
-<div id="callaway-and-santanna-2021" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Callaway and Sant’Anna 2021</h1>
-<p><a href="https://www.sciencedirect.com/science/article/abs/pii/S0304407620303948">“Difference-in-Differences with Multiple Time Periods” by Callaway, Brantly and Sant’Anna, Pedro H. C. (2021)</a></p>
-<div id="the-problem-it-solves-1" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> The problem it solves</h2>
-<p>Callaway and Sant’Anna provide a way to estimate the ATT under staggered treatment and heterogeneous treatment effects. The <a href="https://cran.r-project.org/web/packages/did/vignettes/did-basics.html">did</a> R-package includes a simple to use approach to correctly estimate the group-time average treatment effects. Also see the <a href="https://bcallaway11.github.io/did/">did webpage</a> for more information.</p>
-</div>
-<div id="the-way-it-solves-it-1" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> The way it solves it</h2>
-<p>By avoiding bad control groups (e.g., comparing treated units with already treated units, or if one thinks that the never-treated group is different from the group that eventually becomes treated, one can also only use the not yet treated group as control). Provides ways to aggregate the treatment effects into group-time treatment effects, the average group-level treatment effect, or the average effect of participating in treatment for groups that have been exposed to treatment exactly <span class="math inline">\(n\)</span> time periods. The default approach is a parametric doubly robust approach (using both inverse probability weighting and regression estimators). See <a href="https://www.dropbox.com/sh/zj91darudf2fica/AADWlJIH9SI3XvtADXgYma0ka/ESTIMATE_DiD?dl=0&amp;preview=ESTIMATE_TRF_0.mp4&amp;subfolder_nav_tracking=1">“Potential Outcomes, Treatment Effects, and Estimation Methods”</a> for an explanation of what “doubly robust” means (at the end of the lecture).</p>
-<p>This code implements the method:</p>
-<pre class="r"><code>    source(&quot;Data/generate_panel_data.R&quot;) #Generate random data
-
-    out &lt;- att_gt(yname = &quot;y&quot;,
-    gname = &quot;first_treat&quot;,
-    idname = &quot;id&quot;,
-    tname = &quot;time&quot;,
-    xformla = ~1,
-    data = dat,
-    est_method = &quot;reg&quot;,
-    control_group = &quot;notyettreated&quot; #Will include units that will receive treatment later as control group
-    )
-    
-    #Plot
-    ggdid(out, ylim = c(-.25,.1))</code></pre>
-<p><img src="solutions_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<pre class="r"><code>    #Event-type plot
-    es &lt;- aggte(out, type = &quot;dynamic&quot;)
-    ggdid(es)</code></pre>
-<p><img src="solutions_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
-<p>Event-study plot:</p>
-<pre class="r"><code>    #Event-type plot
-    es &lt;- aggte(out, type = &quot;dynamic&quot;)
-    ggdid(es)</code></pre>
-<p><img src="solutions_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-</div>
-</div>
-<div id="wooldridge" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Wooldridge 2021</h1>
+<div id="wooldridge" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Wooldridge 2021</h1>
 <p><a href="https://www.researchgate.net/publication/353938385_Two-Way_Fixed_Effects_the_Two-Way_Mundlak_Regression_and_Difference-in-Differences_Estimators">“Two-Way Fixed Effects, the Two-Way Mundlak Regression, and Difference-in-Differences Estimators” by Wooldridge, Jeffrey M. (2021)</a></p>
 <p>Wooldridge’s <a href="https://t.co/q1AnkhEF97">Dropbox folder</a> (Contains Stata-code)</p>
 <p><a href="https://twitter.com/jmwooldridge/status/1427472491367305219">The Tweet</a></p>
-<div id="the-problem-it-solves-2" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> The problem it solves</h2>
+<div id="the-problem-it-solves-1" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> The problem it solves</h2>
 <p>Wooldridge shows in this article that the issue with staggered intervention and heterogeneous treatment effects can be solved by altering the parameterization of the linear regression model. He also shows that you can get similar results both using TWFE or a pooled model where group level averages are included into the model (the Two-Way Mundlak model). The benefit with the latter approach is that it is easily adapted to non-linear models such as exponential, logit, and probit models. This idea is further elaborated in another article: <a href="https://www.researchgate.net/publication/362532821_Simple_Approaches_to_Nonlinear_Difference-in-Differences_with_Panel_Data">“Simple Approaches to Nonlinear Difference-in-Differences with Panel Data”</a>. Wooldridge has also recorded a <a href="https://www.dropbox.com/sh/zj91darudf2fica/AADj_jaf5ZuS1muobgsnxS6Za?dl=0&amp;preview=did_seminar_20210923.mp4">“lecture on this topic”</a> (link to his shared Dropbox folder). The introduction to <a href="https://www.dropbox.com/sh/zj91darudf2fica/AADWlJIH9SI3XvtADXgYma0ka/ESTIMATE_DiD?dl=0&amp;preview=ESTIMATE_TRF_0.mp4&amp;subfolder_nav_tracking=1">“Potential Outcomes, Treatment Effects, and Estimation Methods”</a> also comes highly recommended.</p>
 </div>
-<div id="the-way-it-solves-it-2" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> The way it solves it</h2>
-<p>TWFE equation for non-staggered homogeneous treatment:
-<span class="math display">\[\begin{equation}
-Y_{it} = \alpha + \beta w_{it} + c_i + g_t + u_{it}, t = 1, ..., T; i = 1,2,...,N
-\end{equation}\]</span>
-TWM equation non-staggered homogeneous treatment:
-<span class="math display">\[\begin{equation}
-Y_{it} = \alpha + \beta w_{it} + d_i + p_t + u_{it}, t = 1, ..., T; i = 1,2,...,N
-\end{equation}\]</span></p>
-<p>where <span class="math inline">\(d_i = 1\)</span> if eventually treated (are you in the treated or control group), <span class="math inline">\(p_t = 1\)</span> if a post-treatment period (are you in pre- or post-treatment period), and <span class="math inline">\(w_{it} = d_i \cdot p_t\)</span></p>
-<p>TWM equation for staggered heterogeneous treatment:
-<span class="math display">\[\begin{equation}
-Y_{it} = \alpha + \beta_q (w_{it} \cdot fq_t) + ... + \beta_T (w_{it} \cdot fT_t) + \xi d_i + \theta_q fq_t + ... + \theta_T fT_t  + u_{it}, t = 1, ..., T; i = 1,2,...,N
-\end{equation}\]</span>
-where <span class="math inline">\(p_t = fq_t + ... + fT_t = 1\)</span> (<span class="math inline">\(fq_t\)</span> being an indicator for a specific post-treatment period)</p>
-<p>Knowing about this kind of approach, although more cumbersome for estimating the standard cohort effect using e.g., Callaway and Sant’Anna’s approach, could be useful e.g., if you want to specify cohort specific covariate effects.</p>
+<div id="the-way-it-solves-it-1" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> The way it solves it</h2>
+<p><span class="math inline">\(d_i\)</span>: Are you eventually treated?</p>
+<p><span class="math inline">\(p_t\)</span>: Are we in a post-treatment period?</p>
+<p><span class="math display">\[w_i = d_i \cdot p_t\]</span></p>
+<p><span class="math display">\[y_{it} = \alpha + \beta w_i + d_i + p_t + u_{it}\]</span></p>
+<blockquote>
+<p>You are not doing anything fancy. [[<a href="https://www.dropbox.com/sh/zj91darudf2fica/AADj_jaf5ZuS1muobgsnxS6Za?dl=0&amp;preview=did_seminar_20210923.mp4" class="uri">https://www.dropbox.com/sh/zj91darudf2fica/AADj_jaf5ZuS1muobgsnxS6Za?dl=0&amp;preview=did_seminar_20210923.mp4</a>| Wooldridge in DiD seminar 23.09.21]]</p>
+</blockquote>
+<p>Wooldridge shows that the TWFE estimator is equivalent to the “pooled” regression which is exactly the difference-in-differences estimator (difference before and after treatment for the treated group versus before after for the control group).</p>
+<p><strong>So what happens when we have heterogeneous effects in a staggered treatment setting?</strong></p>
+<blockquote>
+<p>It is not a problem with our estimator. It is a problem with our imagination. (Wooldridge)</p>
+</blockquote>
+<p>Wooldridge notes that <span class="math inline">\(w_i \cdot fr_t = d_i \cdot fr_t\)</span> : Interacting the treatment indicator with the time-dummies is the same as interacting the time-constant <span class="math inline">\(d_i\)</span> with the time-dummies <span class="math inline">\(fr_t\)</span>. The model he comes up with for correct parameterization of the case with staggered treatments and heterogeneous treatment effects is the following:</p>
+<p><span class="math display">\[Y_{it} = \alpha + \beta_q (w_{it} \cdot fq_t) + ... + \beta_T (w_{it} \cdot fT_t) + \xi d_i + \theta_q fq_t + ... + \theta_T fT_t + u_{it},\]</span></p>
+<p><span class="math display">\[t = 1, ..., T; i = 1,2,...,N\]</span></p>
+<p><span class="math inline">\(fq_t ... fT_t\)</span> denote the fact that we are in a staggered treatment setting and that different cohorts have different pre- and post-treatment periods. <span class="math inline">\(q\)</span> is the first period someone enters treatment. We could add dummies for time <span class="math inline">\(t &lt; q\)</span>, but these are redundant.</p>
+<p>In the above equation, we allow treatment effects <span class="math inline">\(\beta_{q ... T}\)</span> to change over treatment period. Below, we show how we can simply specify this model in R (including several redundant parameters).</p>
+<pre class="r"><code>set.seed(100)
+
+df &lt;- did2s::gen_data(
+  g1 = 2011, # treatment date for group 1
+  g2 = 2012, # treatment date for group 2
+  g3 = 0, # treatment date for group 3
+  panel = c(2010, 2012), # start and end years for panel
+  te1 = 3, # treatment effect for group 1
+  te2 = 1, # treatment effect for group 2
+  te3 = 0, #  treatment effect for group 3
+  te_m1 = 0, # treatment effect slope per year for group 1
+  te_m2 = 0, # treatment effect slope per year for group 2
+  te_m3 = 0, # treatment effect slope per year for group 3
+  n = 1500 # number of individual in sample
+)
+
+df_hom &lt;- did2s::gen_data(panel = c(2010, 2012),
+                          g1 = 2011, g2 = 2012, g3 = 0,
+                          te1 = 2, te2 = 2, te3 = 0,
+                          te_m1 = 0, te_m2 = 0, te_m3 = 0)
+# df is a simulated dataset with heterogeneous and staggered treatment effects (the group treatd in 2011 has effect = 3, while the group treated one year later has effect = 1). A first-mover advantage is common in many real applications.
+# df_hom is a simulated dataset with homogeneous and staggered treatment effects. Here, the expected (average) effect in both treatment cohorts are the same.
+
+# Two-Way Fixed-Effects with homogeneous treatment effects
+feols(dep_var ~ treat | unit + year, data = df_hom, cluster = &quot;state&quot;) |&gt; summary()
+
+# Two-Way Mundlak with homogeneous treatment effects
+df_hom &lt;- df_hom |&gt; 
+  group_by(unit) |&gt; mutate(mtreat_u = mean(treat)) |&gt; 
+  group_by(year) |&gt; mutate(mtreat_t = mean(treat))
+lm(dep_var ~ treat + mtreat_u + mtreat_t, data = df_hom) |&gt; summary()
+
+# This follows an equivalent logic, note that year dummies t &lt; q are redundant
+feols(dep_var ~ treat | year + g, data = df_hom) |&gt; summary()
+
+# So far, everything is good (although almost by coincidence, as we were lucky that the effect for the two cohorts were exactly the same!)
+
+# The naive Two-Way Mundlak and TWFE is wrongly parameterized when we have heterogeneous TEs.
+# This produces an average effect, but not 3 for group 1 and 1 for group 2.
+df &lt;- df |&gt; 
+  group_by(unit) |&gt; mutate(mtreat_u = mean(treat)) |&gt; 
+  group_by(year) |&gt; mutate(mtreat_t = mean(treat))
+
+lm(dep_var ~ treat + mtreat_u + mtreat_t, data = df) |&gt; summary()
+
+# Similarly wrong
+feols(dep_var ~ treat | year + g, data = df) |&gt; summary()
+
+# Instead, we can add interactions between treatment cohort (g) and time-since treatment (rel_year)
+# Note that more than one level for rel_year t &lt; q is redundant, and we could have collapsed these.
+# This we could have done for year t &lt; q too if we wanted.
+# Note that we need to provide correct base-line comparisons to get correctly formed estimates.
+levels(factor(df$rel_year))
+feols(dep_var ~  factor(g):factor(rel_year) | year , data = df) |&gt; summary()
+# Adding the treatment indicator is also redundant
+feols(dep_var ~ treat : factor(g) : factor(rel_year) | year , data = df) |&gt; summary()
+
+# Estimates for groups, calendar time, or &quot;event study&quot; (grouped by rel_year) can be aggregated from here
+# An easier approach is to use specialized functions such as those in the did-package
+did::att_gt(yname = &quot;dep_var&quot;, gname = &quot;g&quot;, idname = &quot;unit&quot;, tname = &quot;year&quot;, 
+           control_group = &quot;notyettreated&quot;, data = df) |&gt; 
+  did::aggte(type = &quot;group&quot;) 
+
+# control_group could be restricted to &quot;nevertreated&quot;  
+# type can also be &quot;dynamic&quot; (event study),  &quot;calendar&quot;, or &quot;simple&quot; (ATT)
+
+# Compare the &quot;simple&quot; approach with the wrongly parameterized model to see the problem of using the naive TWFE/TWM to estimate the ATT</code></pre>
+<p>One nice thing about the TWM is that it allows time-constant covariates <span class="math inline">\(X_i\)</span>. These are particularly useful if we include them as interactions with time dummies and treatment. <span class="math inline">\(X_i\)</span> would then become a mediator. Doing this would be a way to explore treatment heterogeneity across observed covariates. It should be mentioned here that the differences in estimated effects (e.g., across cohorts or across <span class="math inline">\(X_i\)</span>) are not causal estimates themselves. We would then need to consider the selection mechanism into cohorts or into different <span class="math inline">\(X_i\)</span>.</p>
+<p>We have also not discussed the assumptions needed to interpret the estimate of the treatment as causal here, such as SUTVA, the parallel trends assumption, and the no anticipation assumption. In most observable settings, some or all of these assumptions are violated (to some degree). It is therefore always advisable to test the model in several ways, e.g., through a discussion of how the model relates to other things we belive is true, through testing the predictive capacity of the model, through building alternative explanations, etc. Furthermore, even if the causal estimate is correct, there are no guarantees that causal effects in the social context would stay the same over time or for other cases. Exploring treatment heterogeneity is also a way to build some intuition for how effects might change in new settings.</p>
 </div>
-<div id="an-example-implementation-of-twm-for-real-tscs-data-in-r" class="section level2" number="3.3">
-<h2><span class="header-section-number">3.3</span> An example implementation of TWM for real TSCS data in R</h2>
+<div id="an-example-implementation-of-twm-for-real-tscs-data-in-r" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> An example implementation of TWM for real TSCS data in R</h2>
 <p>For applied researchers like ourselves, implementing Wooldridge’s TWM was not straight forward. Here, we give a step-by-step guide for how to setup the data and estimate the ATT, using the dataset from <a href="https://www.journals.uchicago.edu/doi/10.1086/700936">Acemoglu, Naidu, Restrepo and Robindson (2019)</a>. This is the same dataset used as an example for <code>PanelMatch()</code> above.</p>
 <p>In doing this, we want the code to be able to accommodate all kinds of complexities: staggered adoption, treatment reversal, heterogeneous treatment effects, and the presence of never-treated and always-treated units.</p>
-<pre class="r"><code>library(PanelMatch);library(fixest)
+<pre class="r"><code>library(PanelMatch)
 data(dem)</code></pre>
 <p>The dataset comes as a common country-year long-format table. The variables of interest for us is the unit ID (<code>wbcode2</code>), year (<code>year</code>), and whether or not country <code>i</code> is a democracy (<code>dem</code>) at time <code>t</code>. We need some more stuff:</p>
 <ol style="list-style-type: decimal">
@@ -701,10 +738,48 @@ ggplot(mean_mod, aes(x = time_to_treatment, y = mean_est, ymax = mean_max, ymin 
   geom_vline(xintercept = 0) +
   theme_minimal()</code></pre>
 <p><img src="solutions_files/figure-html/twm_time_average-1.png" width="2304" /></p>
-<div id="extensions-1" class="section level3" number="3.3.1">
-<h3><span class="header-section-number">3.3.1</span> Extensions</h3>
-<p>There are various non-paramteric alteration we could make to the data. For example, we could restrict it to only include a certain number of years before and after treatment occurs. We could add a <em>quarantine</em> period for observations after treatment reverses, if we want units to be able to re-enter the dataset after reversal, but not right away.</p>
+<div id="extensions-1" class="section level3" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Extensions</h3>
+<p>There are various non-parametric alteration we could make to the data. For example, we could restrict it to only include a certain number of years before and after treatment occurs. We could add a quarantine period for observations after treatment reverses, if we want units to be able to re-enter the dataset after reversal, but not right away.</p>
+<hr />
 </div>
+</div>
+</div>
+<div id="callaway-and-santanna-2021" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Callaway and Sant’Anna 2021</h1>
+<p><a href="https://www.sciencedirect.com/science/article/abs/pii/S0304407620303948">“Difference-in-Differences with Multiple Time Periods” by Callaway, Brantly and Sant’Anna, Pedro H. C. (2021)</a></p>
+<div id="the-problem-it-solves-2" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> The problem it solves</h2>
+<p>Callaway and Sant’Anna provide a way to estimate the ATT under staggered treatment and heterogeneous treatment effects. The <a href="https://cran.r-project.org/web/packages/did/vignettes/did-basics.html">did</a> R-package includes a simple to use approach to correctly estimate the group-time average treatment effects. Also see the <a href="https://bcallaway11.github.io/did/">did webpage</a> for more information.</p>
+</div>
+<div id="the-way-it-solves-it-2" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> The way it solves it</h2>
+<p>By avoiding bad control groups (e.g., comparing treated units with already treated units, or if one thinks that the never-treated group is different from the group that eventually becomes treated, one can also only use the not yet treated group as control). Provides ways to aggregate the treatment effects into group-time treatment effects, the average group-level treatment effect, or the average effect of participating in treatment for groups that have been exposed to treatment exactly <span class="math inline">\(n\)</span> time periods. The default approach is a parametric doubly robust approach (using both inverse probability weighting and regression estimators). See <a href="https://www.dropbox.com/sh/zj91darudf2fica/AADWlJIH9SI3XvtADXgYma0ka/ESTIMATE_DiD?dl=0&amp;preview=ESTIMATE_TRF_0.mp4&amp;subfolder_nav_tracking=1">“Potential Outcomes, Treatment Effects, and Estimation Methods”</a> for an explanation of what “doubly robust” means (at the end of the lecture).</p>
+<p>This code implements the method:</p>
+<pre class="r"><code>    source(&quot;Data/generate_panel_data.R&quot;) #Generate random data
+
+    out &lt;- att_gt(yname = &quot;y&quot;,
+    gname = &quot;first_treat&quot;,
+    idname = &quot;id&quot;,
+    tname = &quot;time&quot;,
+    xformla = ~1,
+    data = dat,
+    est_method = &quot;reg&quot;,
+    control_group = &quot;notyettreated&quot; #Will include units that will receive treatment later as control group
+    )
+    
+    #Plot
+    ggdid(out, ylim = c(-.25,.1))</code></pre>
+<p><img src="solutions_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>    #Event-type plot
+    es &lt;- aggte(out, type = &quot;dynamic&quot;)
+    ggdid(es)</code></pre>
+<p><img src="solutions_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
+<p>Event-study plot:</p>
+<pre class="r"><code>    #Event-type plot
+    es &lt;- aggte(out, type = &quot;dynamic&quot;)
+    ggdid(es)</code></pre>
+<p><img src="solutions_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
 </div>
 

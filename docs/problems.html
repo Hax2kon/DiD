@@ -361,10 +361,12 @@ div.tocify {
 </div>
 
 
-<div id="contributions-that-identify-problems" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> Contributions that identify problems</h1>
-<div id="GoodmanBacon" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> Goodman-Bacon 2018</h2>
+<div id="how-to-dentify-problems" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> How to dentify problems</h1>
+<p><strong>Goodman-Bacon 2018</strong> and <strong>Jakiela 2021</strong> are two contributions that are useful for identifying problems for the standard DiD-estimator.</p>
+</div>
+<div id="GoodmanBacon" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Goodman-Bacon 2018</h1>
 <p>The paper proves that the DiD estimator in this situation is a weighted average of all possible two-group DD estimators in the data. This is called the Goodman-Bacon decomposition model.</p>
 <p>Imagine 3 units:
 1. Early treated
@@ -377,22 +379,21 @@ Early treated - Late treated, before the treatment of the Early treated occurs
 Late treated - Early treated, after the treatment of the Early treated occurs</p>
 <div class="figure"><span style="display:block;" id="fig:ExampleDecomposition"></span>
 <img src="Graphics/Decomposition.png" alt="" />
-<p class="caption">Figure 1.1:  The Four Simple (2x2) Difference-in-Differences Estimates from the Three Group Case</p>
+<p class="caption">Figure 2.1:  The Four Simple (2x2) Difference-in-Differences Estimates from the Three Group Case</p>
 </div>
 <p>From this, the paper covers a lot of the potential problems with the standard DiD-estimator and TWFE-models.</p>
-<div id="the-problems-it-identifies" class="section level3" number="1.1.1">
-<h3><span class="header-section-number">1.1.1</span> The problems it identifies</h3>
-<div id="problem-1-staggered-adoption" class="section level4" number="1.1.1.1">
-<h4><span class="header-section-number">1.1.1.1</span> Problem 1: Staggered adoption</h4>
+<div id="the-problems-it-identifies" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> The problems it identifies</h2>
+<div id="problem-1-staggered-adoption" class="section level3" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Problem 1: Staggered adoption</h3>
 <p>Most DiD-applications have <a href="definitions.html"><strong>staggered adoption</strong></a>. The DiD-estimator is the weighted average of all two-group comparisons. Units will be weighted by:</p>
 <ul>
 <li><p>Group size</p></li>
 <li><p>Variance of treatment</p></li>
 </ul>
 <p>– Observations with below mean levels of residualized treatment intensity (after controlling for country FE) receive negative weight, and may be thought of as part of the comparison group. <em>Haakon: I can’t really remember if referred to the DiD-estimator or if this referred to the TWFE?? I guess maybe both since DiD estimator is equivalent to the linear two-way fixed effects regression estimator if there are two time periods and the treatment is administered to some units only in the second time period.</em></p>
-</div>
-<div id="problem-2-early-treatment-spills-into-did-estimate-of-late-treatment" class="section level4" number="1.1.1.2">
-<h4><span class="header-section-number">1.1.1.2</span> Problem 2: Early treatment spills into DiD-estimate of late treatment</h4>
+<div id="problem-2-early-treatment-spills-into-did-estimate-of-late-treatment" class="section level4" number="2.1.1.1">
+<h4><span class="header-section-number">2.1.1.1</span> Problem 2: Early treatment spills into DiD-estimate of late treatment</h4>
 <p>Many effects do not appear instantly, but could be slow moving. It is possible that units that receives the treatment late are compared to units that have received the treatment and where the full effect of the first treatment has not yet manifested.</p>
 <p>The following figure illustrates a scenario where the late treated will be compared to the early treated while the early treated is still manifesting the effect of the treatment:</p>
 <pre class="r"><code>slow &lt;- data.frame(id = c(rep(&quot;Early treated&quot;, 6),
@@ -418,8 +419,9 @@ ggplot(slow, aes(x = time, y = y, group_by = id, color = id)) +
 <p><img src="problems_files/figure-html/slow_treatment-1.png" width="672" /></p>
 </div>
 </div>
-<div id="decomposition-code" class="section level3" number="1.1.2">
-<h3><span class="header-section-number">1.1.2</span> Decomposition code</h3>
+</div>
+<div id="decomposition-code" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Decomposition code</h2>
 <p>The Goodman-Bacon decomposition allows you to inspect the existence of negative weights. The following code does this:</p>
 <pre class="r"><code>library(bacondecomp) #Relies on fixest for the regression
 source(&quot;Data/generate_panel_data.R&quot;) #Generate random data
@@ -438,10 +440,10 @@ ggplot(df_bacon) +
 <p><img src="problems_files/figure-html/decomp-1.png" width="672" /></p>
 </div>
 </div>
-<div id="Jakiela" class="section level2" number="1.2">
-<h2><span class="header-section-number">1.2</span> Jakiela 2021</h2>
-<div id="the-problem-it-solves" class="section level3" number="1.2.1">
-<h3><span class="header-section-number">1.2.1</span> The problem it solves</h3>
+<div id="Jakiela" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Jakiela 2021</h1>
+<div id="the-problem-it-solves" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> The problem it solves</h2>
 <p>How to diagnose problems in two-way fixed effects models.</p>
 <p>TWFE gives biased estimates if treatment is applied at different times (staggered adoption). In practice, TWFE gives negative weights. Most likely to happen with early treated and more likely to happen in late period. Treated units with negative weights will effectively be control-observations for other treated units.</p>
 <p>Having negative weights on treated observations is not necessarily bad. Less likely to be a problem if you have</p>
@@ -451,8 +453,8 @@ ggplot(df_bacon) +
 <li><p>And the treatment effects are homogeneous across all countries.</p></li>
 </ol>
 </div>
-<div id="the-way-it-solves-it" class="section level3" number="1.2.2">
-<h3><span class="header-section-number">1.2.2</span> The way it solves it</h3>
+<div id="the-way-it-solves-it" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> The way it solves it</h2>
 <p>The paper gives a way to diagnose problems. Two questions must be answered:</p>
 <ol style="list-style-type: decimal">
 <li><p>Do I have negative weights?</p></li>
@@ -466,8 +468,8 @@ ggplot(df_bacon) +
 <li>Exclude individual countries</li>
 </ol>
 </div>
-<div id="andrew-heiss-summary" class="section level3" number="1.2.3">
-<h3><span class="header-section-number">1.2.3</span> Andrew Heiss’ summary</h3>
+<div id="andrew-heiss-summary" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Andrew Heiss’ summary</h2>
 <p>Andrew Heiss’ blog: <a href="https://www.andrewheiss.com/blog/2021/08/25/twfe-diagnostics/#residualized-weights-with-twfe-models" class="uri">https://www.andrewheiss.com/blog/2021/08/25/twfe-diagnostics/#residualized-weights-with-twfe-models</a></p>
 <ul>
 <li><p>We can think of OLS as a weighted sum of outcome values - these weights are typically negative for untreated observations and positive for treated observations</p></li>
@@ -478,7 +480,6 @@ ggplot(df_bacon) +
 <li><p>If the slopes for treated and comparison observations are indistinguishable, we can safely assume treatment homogeneity.</p></li>
 <li><p>Finally, we can check how robust the TWFE estimate is to negative treatment weights and the assumption of homogeneity by dropping specific types of observations and checking the ATE across these modified datasets</p></li>
 </ul>
-</div>
 </div>
 </div>
 

@@ -375,9 +375,9 @@ div.tocify {
 <div id="tldr-just-give-me-the-answer" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> tldr; Just give me the answer</h1>
 <p>Many of the contributions talk about and deal with the same problem(s). The main problem is that the TWFE/standard DiD-estimator <em>potentially</em> uses previously treated units as control-group units for other treated units. This is only a problem when units receive treatment at different points in time <em>and</em> the effect of the treatment is heterogeneous. There are both parametric regression solutions and non-parametric matching solutions to this particular issue. However, all solutions cost power.</p>
-<p>For applied researchers, we believe that two contributions cover what you need:</p>
+<p>For applied researchers, we believe that three contributions cover what you need:</p>
 <p><strong>Diagnostics:</strong> <a href="problems.html"><strong>Goodman-Bacon 2018</strong></a> offers solutions to identify whether there is a problem in your TWFE model. Out-of-the-box code in <code>R</code> and <code>Stata</code>.</p>
-<p><strong>Solution:</strong> <a href="solutions.html"><strong>Imai, Kim and Wang 2021</strong></a> offers a flexible solution which also incorporates matching for time-series cross-sectional data to establish parallel trends (balance on observable confounders). Out-of-the-box code in <code>R</code>.</p>
+<p><strong>Solution:</strong> <a href="solutions.html"><strong>Imai, Kim and Wang 2021</strong></a> offers a flexible solution which also incorporates matching for time-series cross-sectional data to establish parallel trends (balance on observable confounders). Out-of-the-box code in <code>R</code>. <a href="solutions.html"><strong>Wooldridge 2021</strong></a> offers a flexible solution using common regression models. This allows for non-linear models such as Poisson. Code available in <code>R</code> and <code>Stata</code>.</p>
 </div>
 <div id="further-issues" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Further issues</h1>

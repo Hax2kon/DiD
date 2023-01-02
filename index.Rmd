@@ -28,11 +28,12 @@ A number of articles have been published since 2015 on complications related to 
 # tldr; Just give me the answer
 Many of the contributions talk about and deal with the same problem(s). The main problem is that the TWFE/standard DiD-estimator _potentially_ uses previously treated units as control-group units for other treated units. This is only a problem when units receive treatment at different points in time _and_ the effect of the treatment is heterogeneous. There are both parametric regression solutions and non-parametric matching solutions to this particular issue. However, all solutions cost power.
 
-For applied researchers, we believe that two contributions cover what you need:
+For applied researchers, we believe that three contributions cover what you need:
 
 **Diagnostics:** [**Goodman-Bacon 2018**](problems.html) offers solutions to identify whether there is a problem in your TWFE model. Out-of-the-box code in `R` and `Stata`.
 
-**Solution:** [**Imai, Kim and Wang 2021**](solutions.html) offers a flexible solution which also incorporates matching for time-series cross-sectional data to establish parallel trends (balance on observable confounders). Out-of-the-box code in `R`.
+**Solution:** [**Imai, Kim and Wang 2021**](solutions.html) offers a flexible solution which also incorporates matching for time-series cross-sectional data to establish parallel trends (balance on observable confounders). Out-of-the-box code in `R`. [**Wooldridge 2021**](solutions.html) offers a flexible solution using common regression models. This allows for non-linear models such as Poisson. Code available in `R` and `Stata`.
+
 
 # Further issues
 

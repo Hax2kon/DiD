@@ -20,9 +20,10 @@ knitr::opts_chunk$set(echo = T,
 library(tidyverse)
 ```
 
-# Contributions that identify problems
+# How to dentify problems
+**Goodman-Bacon 2018** and **Jakiela 2021** are two contributions that are useful for identifying problems for the standard DiD-estimator.
 
-## Goodman-Bacon 2018 {#GoodmanBacon}
+# Goodman-Bacon 2018 {#GoodmanBacon}
 The paper proves that the DiD estimator in this situation is a weighted average of all possible two-group DD estimators in the data. This is called the Goodman-Bacon decomposition model.
 
 Imagine 3 units:
@@ -42,9 +43,9 @@ Late treated  - Early treated, after the treatment of the Early treated occurs
 From this, the paper covers a lot of the potential problems with the standard DiD-estimator and TWFE-models.
 
 
-### The problems it identifies
+## The problems it identifies
 
-#### Problem 1: Staggered adoption
+### Problem 1: Staggered adoption
 Most DiD-applications have [**staggered adoption**](definitions.html). The DiD-estimator is the weighted average of all two-group comparisons. Units will be weighted by:
 
 - Group size
@@ -86,7 +87,7 @@ ggplot(slow, aes(x = time, y = y, group_by = id, color = id)) +
 
 ```
 
-### Decomposition code
+## Decomposition code
 
 The Goodman-Bacon decomposition allows you to inspect the existence of negative weights. The following code does this:
 
@@ -109,9 +110,9 @@ ggplot(df_bacon) +
 ```
 
 
-## Jakiela 2021 {#Jakiela}
+# Jakiela 2021 {#Jakiela}
 
-### The problem it solves
+## The problem it solves
 How to diagnose problems in two-way fixed effects models.
 
 TWFE gives biased estimates if treatment is applied at different times (staggered adoption). In practice, TWFE gives negative weights. Most likely to happen with early treated and more likely to happen in late period. Treated units with negative weights will effectively be control-observations for other treated units.
@@ -125,7 +126,7 @@ Having negative weights on treated observations is not necessarily bad. Less lik
 3. And the treatment effects are homogeneous across all countries. 
 
 
-### The way it solves it
+## The way it solves it
 The paper gives a way to diagnose problems. Two questions must be answered:
 
 1. Do I have negative weights?
@@ -142,7 +143,7 @@ Some solutions if you have the problem:
 2. Limit how many post-treatment years are kept
 3. Exclude individual countries
 
-### Andrew Heiss' summary
+## Andrew Heiss' summary
 
 Andrew Heiss' blog: https://www.andrewheiss.com/blog/2021/08/25/twfe-diagnostics/#residualized-weights-with-twfe-models
 
